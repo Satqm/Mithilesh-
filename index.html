@@ -1619,10 +1619,9 @@
         const TEACHER_PASSWORD = "S@tyam";
         let allStudents = [];
         let todayAttendance = {};
-        let isInitialized = false;
 
         // Initialize App
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', async function() {
             // Initialize star rating
             document.getElementById('ratingText').textContent = 'Select your rating';
             document.getElementById('toast').style.display = 'none';
@@ -1643,65 +1642,104 @@
             });
             
             // Check authentication state
-            checkAuthState();
+            await checkAuthState();
         });
 
         // Check authentication state
         async function checkAuthState() {
-            // Listen for auth state changes
-            auth.onAuthStateChanged(async (user) => {
-                if (user) {
-                    // User is signed in (Teacher)
-                    currentUser = user;
-                    await handleAuthenticatedUser();
-                } else {
-                    // No user is signed in, check local storage
-                    const userMode = localStorage.getItem('userMode');
-                    if (userMode === 'student') {
-                        userRole = 'student';
-                        showApp();
-                        loadStudentData();
+            try {
+                // First check local storage for student mode
+                const userMode = localStorage.getItem('userMode');
+                
+                if (userMode === 'student') {
+                    // Student mode
+                    userRole = 'student';
+                    showApp();
+                    await loadStudentData();
+                    return;
+                }
+                
+                // Check Firebase auth state
+                auth.onAuthStateChanged(async (user) => {
+                    if (user) {
+                        // Teacher is signed in
+                        currentUser = user;
+                        await handleAuthenticatedUser();
                     } else {
-                        // Show login screen
+                        // No user is signed in
                         showLoginScreen();
                     }
-                }
-            });
+                });
+            } catch (error) {
+                console.error('Error checking auth state:', error);
+                showLoginScreen();
+            }
         }
 
         async function handleAuthenticatedUser() {
             try {
                 // Get user document from Firestore
                 const userDoc = await db.collection('users').doc(currentUser.uid).get();
+                
                 if (userDoc.exists) {
                     const userData = userDoc.data();
-                    userRole = userData.role || 'teacher'; // Default to teacher if role not set
-                    
-                    localStorage.setItem('userMode', userRole);
-                    localStorage.setItem('teacherLoggedIn', 'true');
-                    
-                    showApp();
-                    await loadTeacherData();
+                    userRole = userData.role || 'teacher';
                 } else {
-                    // User document doesn't exist, create one
+                    // Create user document if it doesn't exist
                     await db.collection('users').doc(currentUser.uid).set({
                         name: 'Mr. Mithilesh',
                         email: currentUser.email,
                         role: 'teacher',
-                        createdAt: new Date()
+                        createdAt: new Date(),
+                        lastLogin: new Date()
                     });
-                    
                     userRole = 'teacher';
-                    localStorage.setItem('userMode', 'teacher');
-                    localStorage.setItem('teacherLoggedIn', 'true');
                     
-                    showApp();
-                    await loadTeacherData();
+                    // Also create teacher profile if it doesn't exist
+                    await createTeacherProfile();
                 }
+                
+                localStorage.setItem('userMode', 'teacher');
+                localStorage.setItem('teacherLoggedIn', 'true');
+                
+                showApp();
+                await loadTeacherData();
+                
             } catch (error) {
                 console.error('Error handling authenticated user:', error);
-                showToast('Error loading user data');
+                showToast('Error loading user data. Please try again.');
                 showLoginScreen();
+            }
+        }
+
+        async function createTeacherProfile() {
+            try {
+                const profileDoc = await db.collection('teacherProfile').doc('profile').get();
+                if (!profileDoc.exists) {
+                    await db.collection('teacherProfile').doc('profile').set({
+                        name: 'Mr. Mithilesh',
+                        email: currentUser.email,
+                        phone: '+91 93344 20038',
+                        experience: '12+ years of teaching experience specializing in CBSE, ICSE, and State Board Mathematics.',
+                        qualifications: [
+                            'M.Sc. Mathematics (Gold Medalist)',
+                            'B.Ed. in Mathematics Education',
+                            'CTET Qualified (Mathematics)',
+                            'NET/JRF Qualified',
+                            'Ph.D. in Mathematics (Pursuing)'
+                        ],
+                        achievements: [
+                            '1000+ Students Taught',
+                            '95%+ Board Exam Success Rate',
+                            '50+ JEE Advanced Selections',
+                            'Best Teacher Award 2022',
+                            'Student Satisfaction: 4.8/5'
+                        ],
+                        photoUrl: 'https://raw.githubusercontent.com/Satqm/Mithilesh-/main/Mithilesh.jpg'
+                    });
+                }
+            } catch (error) {
+                console.error('Error creating teacher profile:', error);
             }
         }
 
@@ -1710,7 +1748,6 @@
             document.getElementById('app').classList.add('hidden');
             document.querySelector('.login-options').classList.remove('hidden');
             document.getElementById('teacherLoginForm').classList.add('hidden');
-            isInitialized = false;
         }
 
         // Login Functions
@@ -1739,64 +1776,65 @@
             }
 
             try {
-                // Try to sign in with existing account
-                await auth.signInWithEmailAndPassword(email, password);
+                showLoadingState('Logging in...');
                 
-                // Login successful - the auth state listener will handle the rest
-                showToast('Login successful!');
+                // Try to sign in with existing account
+                const userCredential = await auth.signInWithEmailAndPassword(email, password);
+                currentUser = userCredential.user;
+                
+                // Update user document
+                await db.collection('users').doc(currentUser.uid).set({
+                    lastLogin: new Date()
+                }, { merge: true });
+                
+                // Handle the authenticated user
+                await handleAuthenticatedUser();
                 
             } catch (error) {
                 if (error.code === 'auth/user-not-found') {
                     // Create new teacher account
                     try {
-                        await auth.createUserWithEmailAndPassword(email, password);
+                        const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+                        currentUser = userCredential.user;
                         
                         // Create user document
-                        const user = auth.currentUser;
-                        await db.collection('users').doc(user.uid).set({
+                        await db.collection('users').doc(currentUser.uid).set({
                             name: 'Mr. Mithilesh',
                             email: email,
                             role: 'teacher',
-                            createdAt: new Date()
+                            createdAt: new Date(),
+                            lastLogin: new Date()
                         });
 
                         // Create teacher profile
-                        await db.collection('teacherProfile').doc('profile').set({
-                            name: 'Mr. Mithilesh',
-                            email: email,
-                            phone: '+91 93344 20038',
-                            experience: '12+ years of teaching experience specializing in CBSE, ICSE, and State Board Mathematics.',
-                            qualifications: [
-                                'M.Sc. Mathematics (Gold Medalist)',
-                                'B.Ed. in Mathematics Education',
-                                'CTET Qualified (Mathematics)',
-                                'NET/JRF Qualified'
-                            ],
-                            achievements: [
-                                '1000+ Students Taught',
-                                '95%+ Board Exam Success Rate',
-                                '50+ JEE Advanced Selections',
-                                'Best Teacher Award 2022'
-                            ],
-                            photoUrl: 'https://raw.githubusercontent.com/Satqm/Mithilesh-/main/Mithilesh.jpg'
-                        });
+                        await createTeacherProfile();
 
                         showToast('Teacher account created successfully!');
                         
+                        // Handle the authenticated user
+                        await handleAuthenticatedUser();
+                        
                     } catch (createError) {
+                        console.error('Error creating account:', createError);
                         showToast('Error creating account: ' + createError.message);
+                        showLoginScreen();
                     }
                 } else {
+                    console.error('Login error:', error);
                     showToast('Login error: ' + error.message);
+                    showLoginScreen();
                 }
             }
         }
 
         function enterStudentMode() {
-            auth.signOut(); // Ensure no teacher session
+            // Sign out any existing auth
+            auth.signOut();
+            
             userRole = 'student';
             localStorage.setItem('userMode', 'student');
             localStorage.removeItem('teacherLoggedIn');
+            
             showApp();
             loadStudentData();
             showToast('Welcome to Student View!');
@@ -1824,9 +1862,6 @@
                 document.getElementById('addTestBtn').classList.add('hidden');
                 document.getElementById('attendanceActions').classList.add('hidden');
             }
-            
-            // Show dashboard by default
-            showSection('dashboard');
         }
 
         function showSection(sectionId) {
@@ -1845,23 +1880,32 @@
             });
             document.getElementById(sectionId).classList.add('active');
             
-            // Load specific data for the section if needed
-            if (sectionId === 'dashboard') {
-                if (userRole === 'teacher') {
-                    loadDashboardData();
-                } else {
-                    loadStudentDashboardData();
+            // Load specific data for the section
+            loadSectionData(sectionId);
+        }
+
+        async function loadSectionData(sectionId) {
+            try {
+                if (sectionId === 'dashboard') {
+                    if (userRole === 'teacher') {
+                        await loadDashboardData();
+                    } else {
+                        await loadStudentDashboardData();
+                    }
+                } else if (sectionId === 'students') {
+                    await loadStudents();
+                } else if (sectionId === 'attendance') {
+                    await loadAttendanceTable();
+                } else if (sectionId === 'tests') {
+                    await loadTests();
+                } else if (sectionId === 'feedback') {
+                    await loadFeedback();
+                } else if (sectionId === 'about') {
+                    await loadTeacherProfile();
                 }
-            } else if (sectionId === 'students') {
-                loadStudents();
-            } else if (sectionId === 'attendance') {
-                loadAttendanceTable();
-            } else if (sectionId === 'tests') {
-                loadTests();
-            } else if (sectionId === 'feedback') {
-                loadFeedback();
-            } else if (sectionId === 'about') {
-                loadTeacherProfile();
+            } catch (error) {
+                console.error(`Error loading section ${sectionId}:`, error);
+                showToast('Error loading data');
             }
         }
 
@@ -1872,15 +1916,16 @@
                 showLoading('testsList', 'Loading tests...');
                 showLoading('feedbackList', 'Loading feedback...');
                 
-                // Load all data
+                // Load dashboard data first (which loads students)
                 await loadDashboardData();
+                
+                // Load other sections
                 await loadStudents();
                 await loadAttendanceTable();
                 await loadTests();
                 await loadFeedback();
                 await loadTeacherProfile();
                 
-                isInitialized = true;
             } catch (error) {
                 console.error('Error loading teacher data:', error);
                 showToast('Error loading data: ' + error.message);
@@ -1893,15 +1938,16 @@
                 showLoading('testsList', 'Loading tests...');
                 showLoading('feedbackList', 'Loading feedback...');
                 
-                // Load all data
+                // Load dashboard data first (which loads students)
                 await loadStudentDashboardData();
+                
+                // Load other sections
                 await loadStudents();
                 await loadAttendanceTable();
                 await loadTests();
                 await loadFeedback();
                 await loadTeacherProfile();
                 
-                isInitialized = true;
             } catch (error) {
                 console.error('Error loading student data:', error);
                 showToast('Error loading data: ' + error.message);
@@ -1967,7 +2013,7 @@
                 document.getElementById('pendingFees').textContent = '₹' + totalPendingFees;
 
                 // Load activities
-                loadActivities();
+                await loadActivities();
 
             } catch (error) {
                 console.error('Error loading dashboard data:', error);
@@ -2013,7 +2059,7 @@
                 document.getElementById('pendingFees').textContent = 'N/A';
 
                 // Load activities
-                loadActivities();
+                await loadActivities();
 
             } catch (error) {
                 console.error('Error loading student dashboard data:', error);
@@ -2105,11 +2151,16 @@
 
             container.innerHTML = html;
             
-            // Add search functionality
+            // Add search functionality for teacher
             if (userRole === 'teacher') {
                 const searchInput = document.getElementById('studentSearch');
                 if (searchInput) {
-                    searchInput.addEventListener('input', function(e) {
+                    // Remove existing event listeners
+                    searchInput.replaceWith(searchInput.cloneNode(true));
+                    
+                    // Get new reference
+                    const newSearchInput = document.getElementById('studentSearch');
+                    newSearchInput.addEventListener('input', function(e) {
                         const searchTerm = e.target.value.toLowerCase();
                         const filteredStudents = allStudents.filter(student => 
                             (student.name && student.name.toLowerCase().includes(searchTerm)) ||
@@ -2440,31 +2491,76 @@
 
         async function loadActivities() {
             try {
-                // Sample activities for demo
-                const activities = userRole === 'teacher' ? [
-                    { date: 'Today', activity: 'New student registered', status: 'Completed' },
-                    { date: 'Yesterday', activity: 'Monthly test uploaded for Grade 10', status: 'Completed' },
-                    { date: '2 days ago', activity: 'Parent meeting conducted', status: 'Completed' },
-                    { date: '1 week ago', activity: 'Fees collected - ₹15,000', status: 'Completed' }
-                ] : [
-                    { date: 'Today', activity: 'Algebra class completed', status: 'Attended' },
-                    { date: 'Yesterday', activity: 'Test submitted successfully', status: 'Completed' },
-                    { date: '3 days ago', activity: 'Study material downloaded', status: 'Completed' }
-                ];
+                // For teacher: Show actual activities from database
+                if (userRole === 'teacher') {
+                    // Get recent activities from various collections
+                    const activities = [];
+                    
+                    // Get recent student additions
+                    const recentStudents = await db.collection('students')
+                        .orderBy('createdAt', 'desc')
+                        .limit(3)
+                        .get();
+                    
+                    recentStudents.forEach(doc => {
+                        const student = doc.data();
+                        activities.push({
+                            date: student.createdAt ? new Date(student.createdAt.seconds * 1000).toLocaleDateString() : 'Today',
+                            activity: `New student registered: ${student.name}`,
+                            status: 'Completed'
+                        });
+                    });
+                    
+                    // Get recent test uploads
+                    const recentTests = await db.collection('tests')
+                        .orderBy('createdAt', 'desc')
+                        .limit(2)
+                        .get();
+                    
+                    recentTests.forEach(doc => {
+                        const test = doc.data();
+                        activities.push({
+                            date: test.createdAt ? new Date(test.createdAt.seconds * 1000).toLocaleDateString() : 'Today',
+                            activity: `Test uploaded: ${test.title}`,
+                            status: 'Completed'
+                        });
+                    });
 
-                let html = '';
-                activities.forEach(activity => {
-                    const statusClass = activity.status === 'Completed' || activity.status === 'Attended' ? 'badge-success' : 'badge-warning';
-                    html += `
-                        <tr>
-                            <td>${activity.date}</td>
-                            <td>${activity.activity}</td>
-                            <td><span class="badge ${statusClass}">${activity.status}</span></td>
-                        </tr>
-                    `;
-                });
+                    let html = '';
+                    activities.forEach(activity => {
+                        const statusClass = activity.status === 'Completed' ? 'badge-success' : 'badge-warning';
+                        html += `
+                            <tr>
+                                <td>${activity.date}</td>
+                                <td>${activity.activity}</td>
+                                <td><span class="badge ${statusClass}">${activity.status}</span></td>
+                            </tr>
+                        `;
+                    });
 
-                document.getElementById('activitiesList').innerHTML = html;
+                    document.getElementById('activitiesList').innerHTML = html;
+                } else {
+                    // For student: Show sample activities
+                    const activities = [
+                        { date: 'Today', activity: 'Algebra class completed', status: 'Attended' },
+                        { date: 'Yesterday', activity: 'Test submitted successfully', status: 'Completed' },
+                        { date: '3 days ago', activity: 'Study material downloaded', status: 'Completed' }
+                    ];
+
+                    let html = '';
+                    activities.forEach(activity => {
+                        const statusClass = activity.status === 'Completed' || activity.status === 'Attended' ? 'badge-success' : 'badge-warning';
+                        html += `
+                            <tr>
+                                <td>${activity.date}</td>
+                                <td>${activity.activity}</td>
+                                <td><span class="badge ${statusClass}">${activity.status}</span></td>
+                            </tr>
+                        `;
+                    });
+
+                    document.getElementById('activitiesList').innerHTML = html;
+                }
             } catch (error) {
                 console.error('Error loading activities:', error);
             }
@@ -2503,7 +2599,12 @@
                 await db.collection('students').add(studentData);
                 closeModal('addStudentModal');
                 showToast('Student added successfully!');
-                // Reload all data
+                // Clear form
+                document.getElementById('studentName').value = '';
+                document.getElementById('fatherName').value = '';
+                document.getElementById('studentMobile').value = '';
+                document.getElementById('monthlyFee').value = '';
+                // Reload data
                 await loadTeacherData();
             } catch (error) {
                 showToast('Error adding student: ' + error.message);
@@ -2516,7 +2617,7 @@
                 try {
                     await db.collection('students').doc(studentId).delete();
                     showToast('Student deleted successfully!');
-                    // Reload all data
+                    // Reload data
                     await loadTeacherData();
                 } catch (error) {
                     showToast('Error deleting student: ' + error.message);
@@ -2545,6 +2646,10 @@
                 await db.collection('tests').add(testData);
                 closeModal('addTestModal');
                 showToast('Test added successfully!');
+                // Clear form
+                document.getElementById('testTitle').value = '';
+                document.getElementById('testLink').value = '';
+                // Reload tests
                 await loadTests();
             } catch (error) {
                 showToast('Error adding test: ' + error.message);
@@ -2662,7 +2767,8 @@
 
                 todayAttendance[studentId] = status;
                 showToast(`Attendance marked as ${status}`);
-                openAttendanceModal(); // Refresh modal
+                // Refresh modal
+                openAttendanceModal();
 
             } catch (error) {
                 showToast('Error marking attendance: ' + error.message);
@@ -2705,12 +2811,27 @@
             }
         }
 
+        function showLoadingState(message) {
+            // Show loading state on login screen
+            const loginCard = document.querySelector('.login-card');
+            const originalContent = loginCard.innerHTML;
+            loginCard.innerHTML = `
+                <div class="loading">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <p>${message}</p>
+                </div>
+            `;
+            return originalContent;
+        }
+
         // Utility Functions
         function logout() {
             localStorage.removeItem('userMode');
             localStorage.removeItem('teacherLoggedIn');
             auth.signOut();
-            location.reload();
+            setTimeout(() => {
+                location.reload();
+            }, 500);
         }
 
         function showToast(message) {
@@ -2723,14 +2844,12 @@
             }, 3000);
         }
 
-        // Add these helper functions if needed
+        // Helper functions for student actions
         async function editStudent(studentId) {
-            // Implementation for editing student
             showToast('Edit feature coming soon!');
         }
 
         async function collectFee(studentId, studentName) {
-            // Implementation for collecting fee
             const amount = prompt(`Enter amount to collect for ${studentName}:`, "0");
             if (amount && !isNaN(amount) && parseFloat(amount) > 0) {
                 try {
@@ -2763,4 +2882,4 @@
         }
     </script>
 </body>
-            </html>
+    </html>
