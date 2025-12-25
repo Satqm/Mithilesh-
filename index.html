@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Math Classes - Mr. Mithilesh</title>
-    <link rel="manifest" href="manifest.json">
     <!-- Firebase & UI Libraries -->
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
@@ -389,40 +388,7 @@
             background: #f9f9f9;
         }
 
-        /* Badges */
-        .badge {
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 500;
-            display: inline-block;
-        }
-
-        .badge-success {
-            background: rgba(6, 214, 160, 0.15);
-            color: var(--success);
-            border: 1px solid rgba(6, 214, 160, 0.3);
-        }
-
-        .badge-warning {
-            background: rgba(255, 209, 102, 0.15);
-            color: #e6a700;
-            border: 1px solid rgba(255, 209, 102, 0.3);
-        }
-
-        .badge-danger {
-            background: rgba(239, 71, 111, 0.15);
-            color: var(--danger);
-            border: 1px solid rgba(239, 71, 111, 0.3);
-        }
-
-        .badge-info {
-            background: rgba(58, 134, 255, 0.15);
-            color: var(--primary);
-            border: 1px solid rgba(58, 134, 255, 0.3);
-        }
-
-        /* Student Cards - NEW IMPROVED DESIGN */
+        /* Student Cards */
         .student-card {
             background: white;
             border-radius: 15px;
@@ -577,7 +543,6 @@
             margin-bottom: 40px;
         }
 
-        /* BIGGER PHOTO FRAME */
         .teacher-photo {
             width: 250px;
             height: 250px;
@@ -754,61 +719,6 @@
             font-size: 0.9rem;
         }
 
-        /* Modal */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0,0,0,0.7);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-            padding: 20px;
-            display: none;
-            animation: fadeIn 0.3s ease;
-        }
-
-        .modal-overlay.active {
-            display: flex;
-        }
-
-        .modal {
-            background: white;
-            border-radius: 20px;
-            width: 100%;
-            max-width: 500px;
-            max-height: 90vh;
-            overflow-y: auto;
-            animation: modalSlideIn 0.4s ease;
-        }
-
-        @keyframes modalSlideIn {
-            from {
-                opacity: 0;
-                transform: translateY(-50px) scale(0.9);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
-        }
-
-        .modal-header {
-            padding: 25px;
-            border-bottom: 1px solid #eee;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
-        }
-
-        .modal-body {
-            padding: 25px;
-        }
-
         /* Loading */
         .loading {
             text-align: center;
@@ -893,23 +803,7 @@
             gap: 10px;
         }
 
-        /* Password Info */
-        .password-note {
-            background: #e8f4ff;
-            border: 2px dashed var(--primary);
-            padding: 12px 15px;
-            margin-top: 15px;
-            border-radius: 10px;
-            font-size: 0.9rem;
-            color: var(--dark);
-        }
-
-        .password-note i {
-            color: var(--primary);
-            margin-right: 8px;
-        }
-
-        /* Success Toast */
+        /* Toast */
         .toast {
             position: fixed;
             bottom: 20px;
@@ -933,44 +827,12 @@
             margin-right: 10px;
         }
 
-        /* Student Dashboard Cards */
-        .student-dashboard-card {
-            background: white;
-            border-radius: 15px;
-            padding: 25px;
-            margin-bottom: 20px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
-            transition: all 0.3s ease;
-            text-align: center;
-        }
-
-        .student-dashboard-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.12);
-        }
-
-        .student-dashboard-card i {
-            font-size: 3rem;
-            color: var(--primary);
-            margin-bottom: 15px;
-        }
-
-        .student-dashboard-card h3 {
-            font-size: 1.5rem;
-            margin-bottom: 10px;
-            color: var(--dark);
-        }
-
-        .student-dashboard-card p {
-            color: #666;
-            line-height: 1.5;
-        }
-
-        /* Action Buttons for Teacher */
+        /* Action Buttons */
         .action-buttons {
             display: flex;
             gap: 10px;
             margin-top: 15px;
+            flex-wrap: wrap;
         }
 
         .action-btn {
@@ -990,6 +852,11 @@
             color: white;
         }
 
+        .action-btn-success {
+            background: var(--success);
+            color: white;
+        }
+
         .action-btn-danger {
             background: var(--danger);
             color: white;
@@ -998,6 +865,16 @@
         .action-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        /* Today's Attendance Highlight */
+        .today-highlight {
+            background: linear-gradient(135deg, #ffd166, #ffc107);
+            color: var(--dark);
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            border-left: 5px solid var(--warning);
         }
     </style>
 </head>
@@ -1027,10 +904,6 @@
         </div>
 
         <div id="teacherLoginForm" style="display: none; margin-top: 30px;">
-            <div class="password-note">
-                <i class="fas fa-lock"></i>
-                <span>Use teacher password for access</span>
-            </div>
             <div class="form-group">
                 <label>Teacher Email Address</label>
                 <input type="email" id="loginEmail" class="form-control" placeholder="mithilesh.maths@gmail.com">
@@ -1048,7 +921,7 @@
         </div>
     </div>
 
-    <!-- Main App (hidden until login) -->
+    <!-- Main App -->
     <div id="app" style="display: none;">
         <!-- Student View Notice -->
         <div id="studentNotice" class="read-only-notice" style="display: none;">
@@ -1097,6 +970,14 @@
 
         <!-- Dashboard Section -->
         <section id="dashboard" class="content-section active">
+            <div class="today-highlight" id="todayHighlight" style="display: none;">
+                <i class="fas fa-bell"></i>
+                <strong>Today's Attendance:</strong> <span id="todayStatus">Not marked yet</span>
+                <button class="btn btn-primary" onclick="showSection('attendance')" style="margin-left: 15px; padding: 5px 15px;">
+                    <i class="fas fa-check"></i> Mark Attendance
+                </button>
+            </div>
+
             <div class="stats-grid">
                 <div class="stat-card">
                     <div class="stat-icon">
@@ -1136,36 +1017,6 @@
                 </div>
             </div>
 
-            <div id="studentDashboard" style="display: none;">
-                <div class="student-warning">
-                    <i class="fas fa-info-circle"></i> 
-                    You're viewing in read-only mode. Contact teacher for any changes.
-                </div>
-                
-                <div class="stats-grid">
-                    <div class="student-dashboard-card">
-                        <i class="fas fa-user-graduate"></i>
-                        <h3>View Students</h3>
-                        <p>See all registered students in the class</p>
-                    </div>
-                    <div class="student-dashboard-card">
-                        <i class="fas fa-calendar-check"></i>
-                        <h3>Check Attendance</h3>
-                        <p>View your attendance records</p>
-                    </div>
-                    <div class="student-dashboard-card">
-                        <i class="fas fa-file-pdf"></i>
-                        <h3>Download Tests</h3>
-                        <p>Access monthly tests and quizzes</p>
-                    </div>
-                    <div class="student-dashboard-card">
-                        <i class="fas fa-star"></i>
-                        <h3>Submit Feedback</h3>
-                        <p>Share your experience with teacher</p>
-                    </div>
-                </div>
-            </div>
-
             <h3 style="margin: 25px 0 15px; font-family: 'Poppins', sans-serif;">Recent Activities</h3>
             <div class="table-container">
                 <table class="table">
@@ -1197,7 +1048,7 @@
 
             <div class="student-warning" id="studentViewWarning" style="display: none;">
                 <i class="fas fa-eye"></i> 
-                <span>Read-only view - You can see student information but cannot make changes</span>
+                <span>Read-only view - Contact teacher for any changes</span>
             </div>
 
             <div class="form-group">
@@ -1222,13 +1073,8 @@
                     Attendance Tracking
                 </h3>
                 <div id="attendanceActions" style="display: none;">
-                    <select id="attendanceMonth" class="form-control" style="width: auto; display: inline-block;" onchange="loadAttendance()">
-                        <option value="current">Current Month</option>
-                        <option value="prev1">Last Month</option>
-                        <option value="prev2">2 Months Ago</option>
-                    </select>
-                    <button class="btn btn-primary" onclick="markAttendanceToday()" style="margin-left: 10px;">
-                        <i class="fas fa-check"></i> Mark Today
+                    <button class="btn btn-primary" onclick="openMarkAttendanceModal()">
+                        <i class="fas fa-check"></i> Mark Today's Attendance
                     </button>
                 </div>
             </div>
@@ -1247,7 +1093,7 @@
                             <th>Today</th>
                             <th>This Week</th>
                             <th>This Month</th>
-                            <th>Attendance %</th>
+                            <th>Overall %</th>
                         </tr>
                     </thead>
                     <tbody id="attendanceTable">
@@ -1290,7 +1136,7 @@
                     Student Feedback System
                 </h3>
                 
-                <!-- Feedback Form (only for student view) -->
+                <!-- Feedback Form (visible to students, hidden for teachers) -->
                 <div class="feedback-form" id="feedbackForm">
                     <h4 style="margin-bottom: 20px; color: var(--primary);">
                         <i class="fas fa-comment-alt"></i> 
@@ -1511,6 +1357,67 @@
         </div>
     </div>
 
+    <div class="modal-overlay" id="markAttendanceModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3><i class="fas fa-calendar-check"></i> Mark Today's Attendance</h3>
+                <button onclick="closeModal('markAttendanceModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="attendanceMarkingList">
+                    <!-- Will be populated dynamically -->
+                </div>
+                <button class="btn btn-success" onclick="saveTodayAttendance()" style="margin-top: 20px; width: 100%;">
+                    <i class="fas fa-save"></i> Save Attendance
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="editStudentModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3><i class="fas fa-edit"></i> Edit Student Information</h3>
+                <button onclick="closeModal('editStudentModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="editStudentId">
+                <div class="form-group">
+                    <label>Student Name</label>
+                    <input type="text" id="editStudentName" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label>Father's Name</label>
+                    <input type="text" id="editFatherName" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label>Class</label>
+                    <select id="editStudentClass" class="form-control">
+                        <option value="9">Grade 9</option>
+                        <option value="10">Grade 10</option>
+                        <option value="11">Grade 11</option>
+                        <option value="12">Grade 12</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Mobile Number</label>
+                    <input type="tel" id="editStudentMobile" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label>Monthly Fee (₹)</label>
+                    <input type="number" id="editMonthlyFee" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label>Pending Fee (₹)</label>
+                    <input type="number" id="editPendingFee" class="form-control">
+                </div>
+                <button class="btn btn-primary" onclick="updateStudent()">
+                    <i class="fas fa-save"></i> Update Student
+                </button>
+            </div>
+        </div>
+    </div>
+
     <div class="modal-overlay" id="addTestModal">
         <div class="modal">
             <div class="modal-header">
@@ -1572,15 +1479,10 @@
         let currentUser = null;
         let userRole = null; // 'teacher' or 'student'
         const FIXED_PASSWORD = "S@tyam"; // Fixed password for teacher
+        let allStudents = []; // Store all students for attendance
+        let todayAttendance = {}; // Store today's attendance status
 
-        // DOM Elements
-        const loginScreen = document.getElementById('loginScreen');
-        const app = document.getElementById('app');
-        const welcomeMessage = document.getElementById('welcomeMessage');
-        const userRoleElement = document.getElementById('userRole');
-        const userAvatar = document.getElementById('userAvatar');
-
-        // Initialize app - FIXED: Stay logged in on refresh
+        // Initialize app
         document.addEventListener('DOMContentLoaded', function() {
             // Check if user is already logged in
             const userMode = localStorage.getItem('userMode');
@@ -1599,19 +1501,13 @@
             }
         });
 
-        // Show login options
-        function showLoginOptions() {
-            document.getElementById('teacherLoginForm').style.display = 'none';
-            document.querySelector('.login-options').style.display = 'flex';
-        }
-
         // Show teacher login form
         function showTeacherLogin() {
             document.querySelector('.login-options').style.display = 'none';
             document.getElementById('teacherLoginForm').style.display = 'block';
         }
 
-        // Teacher login function with fixed password
+        // Teacher login function
         async function login() {
             const email = document.getElementById('loginEmail').value;
             const password = document.getElementById('loginPassword').value;
@@ -1693,7 +1589,7 @@
             }
         }
 
-        // Enter student mode (no login required) - FIXED: Save state
+        // Enter student mode (no login required)
         function enterStudentMode() {
             userRole = 'student';
             localStorage.setItem('userMode', 'student');
@@ -1720,13 +1616,13 @@
                 document.getElementById('attendanceActions').style.display = 'flex';
                 document.getElementById('editAboutButton').style.display = 'block';
                 document.getElementById('studentsTitle').textContent = 'Student Management';
+                document.getElementById('todayHighlight').style.display = 'block';
                 
                 // Hide student elements
                 document.getElementById('studentNotice').style.display = 'none';
                 document.getElementById('studentViewWarning').style.display = 'none';
                 document.getElementById('attendanceWarning').style.display = 'none';
                 document.getElementById('testsWarning').style.display = 'none';
-                document.getElementById('studentDashboard').style.display = 'none';
                 document.getElementById('feedbackForm').style.display = 'none';
                 
             } else {
@@ -1740,7 +1636,6 @@
                 document.getElementById('studentViewWarning').style.display = 'block';
                 document.getElementById('attendanceWarning').style.display = 'block';
                 document.getElementById('testsWarning').style.display = 'block';
-                document.getElementById('studentDashboard').style.display = 'block';
                 document.getElementById('feedbackForm').style.display = 'block';
                 document.getElementById('studentsTitle').textContent = 'Class Students';
                 
@@ -1750,48 +1645,84 @@
                 document.getElementById('attendanceActions').style.display = 'none';
                 document.getElementById('editAboutButton').style.display = 'none';
                 document.getElementById('editAboutSection').style.display = 'none';
+                document.getElementById('todayHighlight').style.display = 'none';
             }
         }
 
         // Load teacher data
         async function loadTeacherData() {
             try {
-                // Load dashboard stats
-                const students = await db.collection('students').get();
-                document.getElementById('totalStudents').textContent = students.size;
+                // Load all students
+                const studentsSnapshot = await db.collection('students').get();
+                allStudents = [];
+                studentsSnapshot.forEach(doc => {
+                    allStudents.push({
+                        id: doc.id,
+                        ...doc.data()
+                    });
+                });
                 
-                // Calculate today's attendance
+                document.getElementById('totalStudents').textContent = allStudents.length;
+                
+                // Load today's attendance
                 const today = new Date().toISOString().split('T')[0];
-                const attendance = await db.collection('attendance')
+                const attendanceSnapshot = await db.collection('attendance')
                     .where('date', '==', today)
                     .get();
                 
-                const presentCount = attendance.docs.filter(doc => doc.data().status === 'present').length;
-                const totalStudents = students.size;
-                const attendancePercent = totalStudents > 0 ? Math.round((presentCount / totalStudents) * 100) : 0;
+                let presentCount = 0;
+                todayAttendance = {};
+                
+                attendanceSnapshot.forEach(doc => {
+                    const data = doc.data();
+                    todayAttendance[data.studentId] = data.status;
+                    if (data.status === 'present') presentCount++;
+                });
+                
+                // Update today's attendance status
+                const attendancePercent = allStudents.length > 0 ? 
+                    Math.round((presentCount / allStudents.length) * 100) : 0;
                 document.getElementById('attendancePercent').textContent = attendancePercent + '%';
                 
+                // Show today's attendance status
+                if (attendanceSnapshot.empty) {
+                    document.getElementById('todayStatus').textContent = 'Not marked yet';
+                    document.getElementById('todayStatus').style.color = 'var(--danger)';
+                } else {
+                    document.getElementById('todayStatus').textContent = `${presentCount}/${allStudents.length} present (${attendancePercent}%)`;
+                    document.getElementById('todayStatus').style.color = 'var(--success)';
+                }
+                
                 // Load fees data
-                const currentMonth = new Date().getMonth();
+                const currentMonth = new Date().getMonth() + 1;
                 const currentYear = new Date().getFullYear();
-                const fees = await db.collection('fees')
-                    .where('month', '==', currentMonth)
-                    .where('year', '==', currentYear)
+                
+                // Calculate fees from students data
+                let totalMonthlyFees = 0;
+                let totalPendingFees = 0;
+                
+                allStudents.forEach(student => {
+                    totalMonthlyFees += parseFloat(student.monthlyFee || 0);
+                    totalPendingFees += parseFloat(student.feePending || 0);
+                });
+                
+                // For this month's collected fees, we need to check fees collection
+                let thisMonthFees = 0;
+                const firstDay = new Date(currentYear, currentMonth - 1, 1);
+                const lastDay = new Date(currentYear, currentMonth, 0);
+                
+                const feesSnapshot = await db.collection('fees')
+                    .where('date', '>=', firstDay)
+                    .where('date', '<=', lastDay)
                     .get();
                 
-                let feesCollected = 0;
-                fees.forEach(doc => {
-                    feesCollected += parseFloat(doc.data().amount || 0);
-                });
-                document.getElementById('feesCollected').textContent = '₹' + feesCollected;
-                
-                // Load pending fees
-                let pendingFees = 0;
-                students.forEach(doc => {
+                feesSnapshot.forEach(doc => {
                     const data = doc.data();
-                    pendingFees += parseFloat(data.feePending || 0);
+                    thisMonthFees += parseFloat(data.amount || 0);
                 });
-                document.getElementById('pendingFees').textContent = '₹' + pendingFees;
+                
+                document.getElementById('feesCollected').textContent = '₹' + thisMonthFees;
+                document.getElementById('pendingFees').textContent = '₹' + totalPendingFees;
                 
                 // Load activities
                 loadActivities();
@@ -1799,8 +1730,8 @@
                 // Load students list
                 loadStudents();
                 
-                // Load attendance
-                loadAttendance();
+                // Load attendance table
+                loadAttendanceTable();
                 
                 // Load tests
                 loadTests();
@@ -1813,39 +1744,63 @@
                 
             } catch (error) {
                 console.error('Error loading teacher data:', error);
-                showToast('Error loading data: ' + error.message);
+                showToast('Error loading data. Please refresh.');
             }
         }
 
-        // Load student data (read-only)
+        // Load student data (read-only with real data)
         async function loadStudentData() {
             try {
-                // Load basic info
-                const students = await db.collection('students').get();
-                document.getElementById('totalStudents').textContent = students.size;
+                // Load all students (read-only)
+                const studentsSnapshot = await db.collection('students').get();
+                allStudents = [];
+                studentsSnapshot.forEach(doc => {
+                    allStudents.push({
+                        id: doc.id,
+                        ...doc.data()
+                    });
+                });
                 
-                // Set attendance percentage (demo)
-                document.getElementById('attendancePercent').textContent = '85%';
+                document.getElementById('totalStudents').textContent = allStudents.length;
+                
+                // Load today's attendance for display
+                const today = new Date().toISOString().split('T')[0];
+                const attendanceSnapshot = await db.collection('attendance')
+                    .where('date', '==', today)
+                    .get();
+                
+                let presentCount = 0;
+                attendanceSnapshot.forEach(doc => {
+                    const data = doc.data();
+                    if (data.status === 'present') presentCount++;
+                });
+                
+                // Show attendance percentage (students can see this)
+                const attendancePercent = allStudents.length > 0 ? 
+                    Math.round((presentCount / allStudents.length) * 100) : 0;
+                document.getElementById('attendancePercent').textContent = attendancePercent + '%';
+                
+                // For students, fees are not shown
                 document.getElementById('feesCollected').textContent = 'N/A';
                 document.getElementById('pendingFees').textContent = 'N/A';
                 
-                // Load activities
+                // Load activities (student view)
                 loadActivities();
                 
-                // Load teacher profile
-                loadTeacherProfile();
-                
-                // Load tests for download
-                loadTests();
-                
-                // Load attendance (read-only)
-                loadAttendance();
-                
-                // Load students list (read-only)
+                // Load students list (read-only, no fees)
                 loadStudents();
+                
+                // Load attendance table (read-only)
+                loadAttendanceTable();
+                
+                // Load tests (students can download)
+                loadTests();
                 
                 // Load feedback
                 loadFeedback();
+                
+                // Load teacher profile
+                loadTeacherProfile();
                 
             } catch (error) {
                 console.error('Error loading student data:', error);
@@ -1913,7 +1868,7 @@
             document.querySelectorAll('.nav-tab').forEach(tab => {
                 tab.classList.remove('active');
             });
-            event.target.classList.add('active');
+            event.target.closest('.nav-tab').classList.add('active');
             
             // Show section
             document.querySelectorAll('.content-section').forEach(section => {
@@ -1922,24 +1877,22 @@
             document.getElementById(sectionId).classList.add('active');
         }
 
-        // Load students - FIXED: Improved UI and removed fees for students
+        // Load students
         async function loadStudents() {
             try {
-                const studentsSnapshot = await db.collection('students').orderBy('name').get();
                 const studentsList = document.getElementById('studentsList');
                 
-                if (studentsSnapshot.empty) {
+                if (allStudents.length === 0) {
                     studentsList.innerHTML = '<div class="loading">No students found</div>';
                     return;
                 }
                 
                 let html = '';
-                studentsSnapshot.forEach(doc => {
-                    const student = doc.data();
+                allStudents.forEach(student => {
                     const firstLetter = student.name ? student.name.charAt(0).toUpperCase() : 'S';
                     
                     if (userRole === 'teacher') {
-                        // Teacher view with all info
+                        // Teacher view with all info and edit options
                         html += `
                             <div class="student-card">
                                 <div class="student-avatar">${firstLetter}</div>
@@ -1968,10 +1921,13 @@
                                         </div>
                                     </div>
                                     <div class="action-buttons">
-                                        <button class="action-btn action-btn-primary" onclick="editStudent('${doc.id}')">
+                                        <button class="action-btn action-btn-primary" onclick="openEditStudentModal('${student.id}')">
                                             <i class="fas fa-edit"></i> Edit
                                         </button>
-                                        <button class="action-btn action-btn-danger" onclick="deleteStudent('${doc.id}')">
+                                        <button class="action-btn action-btn-success" onclick="collectFee('${student.id}', '${student.name}')">
+                                            <i class="fas fa-rupee-sign"></i> Collect Fee
+                                        </button>
+                                        <button class="action-btn action-btn-danger" onclick="deleteStudent('${student.id}')">
                                             <i class="fas fa-trash"></i> Delete
                                         </button>
                                     </div>
@@ -1979,7 +1935,7 @@
                             </div>
                         `;
                     } else {
-                        // Student view without fees
+                        // Student view without fees and edit options
                         html += `
                             <div class="student-card">
                                 <div class="student-avatar">${firstLetter}</div>
@@ -1999,7 +1955,7 @@
                                             <span>${student.mobile || 'Not specified'}</span>
                                         </div>
                                         <div class="student-info-item">
-                                            <strong>Joined</strong>
+                                            <strong>Joined On</strong>
                                             <span>${student.createdAt ? new Date(student.createdAt.seconds * 1000).toLocaleDateString() : 'Recent'}</span>
                                         </div>
                                     </div>
@@ -2100,13 +2056,8 @@
             }
         }
 
-        // Submit feedback (student only) - FIXED: Name is required
+        // Submit feedback - FIXED: Works for students without authentication
         async function submitFeedback() {
-            if (userRole !== 'student') {
-                showToast('Only students can submit feedback');
-                return;
-            }
-            
             const rating = document.querySelector('input[name="rating"]:checked');
             const name = document.getElementById('feedbackName').value.trim();
             const phone = document.getElementById('feedbackPhone').value.trim();
@@ -2124,6 +2075,7 @@
             }
             
             try {
+                // This works for both students and teachers because Firebase rules allow write: true
                 await db.collection('feedback').add({
                     rating: parseInt(rating.value),
                     name: name,
@@ -2148,31 +2100,199 @@
             }
         }
 
-        // Update teacher profile
-        async function updateTeacherProfile() {
+        // Load attendance table
+        async function loadAttendanceTable() {
+            try {
+                const today = new Date().toISOString().split('T')[0];
+                const oneWeekAgo = new Date();
+                oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+                const oneMonthAgo = new Date();
+                oneMonthAgo.setDate(oneMonthAgo.getDate() - 30);
+                
+                // Get attendance for today, this week, and this month
+                const todayAttendanceSnapshot = await db.collection('attendance')
+                    .where('date', '==', today)
+                    .get();
+                
+                const weekAttendanceSnapshot = await db.collection('attendance')
+                    .where('date', '>=', oneWeekAgo)
+                    .where('date', '<=', new Date())
+                    .get();
+                
+                const monthAttendanceSnapshot = await db.collection('attendance')
+                    .where('date', '>=', oneMonthAgo)
+                    .where('date', '<=', new Date())
+                    .get();
+                
+                // Process attendance data
+                const attendanceByStudent = {};
+                
+                // Initialize all students
+                allStudents.forEach(student => {
+                    attendanceByStudent[student.id] = {
+                        name: student.name,
+                        class: student.class,
+                        today: 'absent',
+                        weekPresent: 0,
+                        weekTotal: 0,
+                        monthPresent: 0,
+                        monthTotal: 0
+                    };
+                });
+                
+                // Process today's attendance
+                todayAttendanceSnapshot.forEach(doc => {
+                    const data = doc.data();
+                    if (attendanceByStudent[data.studentId]) {
+                        attendanceByStudent[data.studentId].today = data.status;
+                    }
+                });
+                
+                // Process week's attendance
+                weekAttendanceSnapshot.forEach(doc => {
+                    const data = doc.data();
+                    if (attendanceByStudent[data.studentId]) {
+                        attendanceByStudent[data.studentId].weekTotal++;
+                        if (data.status === 'present') {
+                            attendanceByStudent[data.studentId].weekPresent++;
+                        }
+                    }
+                });
+                
+                // Process month's attendance
+                monthAttendanceSnapshot.forEach(doc => {
+                    const data = doc.data();
+                    if (attendanceByStudent[data.studentId]) {
+                        attendanceByStudent[data.studentId].monthTotal++;
+                        if (data.status === 'present') {
+                            attendanceByStudent[data.studentId].monthPresent++;
+                        }
+                    }
+                });
+                
+                // Generate HTML table
+                let html = '';
+                Object.keys(attendanceByStudent).forEach(studentId => {
+                    const student = attendanceByStudent[studentId];
+                    const weekPercent = student.weekTotal > 0 ? 
+                        Math.round((student.weekPresent / student.weekTotal) * 100) : 0;
+                    const monthPercent = student.monthTotal > 0 ? 
+                        Math.round((student.monthPresent / student.monthTotal) * 100) : 0;
+                    const overallPercent = Math.round((weekPercent + monthPercent) / 2);
+                    
+                    html += `
+                        <tr>
+                            <td>${student.name}</td>
+                            <td>Grade ${student.class}</td>
+                            <td><span class="badge ${student.today === 'present' ? 'badge-success' : 'badge-danger'}">${student.today}</span></td>
+                            <td>${student.weekPresent}/${student.weekTotal} days</td>
+                            <td>${student.monthPresent}/${student.monthTotal} days</td>
+                            <td>
+                                <div style="display: flex; align-items: center; gap: 10px;">
+                                    <span>${overallPercent}%</span>
+                                    <div style="flex: 1; height: 8px; background: #eee; border-radius: 4px; overflow: hidden;">
+                                        <div style="width: ${overallPercent}%; height: 100%; background: ${overallPercent > 80 ? 'var(--success)' : overallPercent > 60 ? 'var(--warning)' : 'var(--danger)'};"></div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    `;
+                });
+                
+                document.getElementById('attendanceTable').innerHTML = html;
+            } catch (error) {
+                console.error('Error loading attendance:', error);
+                document.getElementById('attendanceTable').innerHTML = '<tr><td colspan="6" class="loading">Error loading attendance</td></tr>';
+            }
+        }
+
+        // Open mark attendance modal
+        async function openMarkAttendanceModal() {
             if (userRole !== 'teacher') return;
             
+            const attendanceList = document.getElementById('attendanceMarkingList');
+            let html = '';
+            
+            allStudents.forEach(student => {
+                const isPresent = todayAttendance[student.id] === 'present';
+                const isAbsent = todayAttendance[student.id] === 'absent';
+                
+                html += `
+                    <div style="display: flex; align-items: center; justify-content: space-between; padding: 15px; border-bottom: 1px solid #eee;">
+                        <div>
+                            <strong>${student.name}</strong>
+                            <p style="margin: 5px 0 0; color: #666;">Grade ${student.class} | ${student.fatherName || ''}</p>
+                        </div>
+                        <div style="display: flex; gap: 10px;">
+                            <button class="action-btn ${isPresent ? 'action-btn-success' : ''}" 
+                                    onclick="markAttendance('${student.id}', 'present')" 
+                                    style="${isPresent ? 'background: var(--success); color: white;' : ''}">
+                                <i class="fas fa-check"></i> Present
+                            </button>
+                            <button class="action-btn ${isAbsent ? 'action-btn-danger' : ''}" 
+                                    onclick="markAttendance('${student.id}', 'absent')"
+                                    style="${isAbsent ? 'background: var(--danger); color: white;' : ''}">
+                                <i class="fas fa-times"></i> Absent
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            attendanceList.innerHTML = html;
+            document.getElementById('markAttendanceModal').classList.add('active');
+        }
+
+        // Mark individual student attendance
+        async function markAttendance(studentId, status) {
+            if (userRole !== 'teacher') return;
+            
+            const today = new Date().toISOString().split('T')[0];
+            
             try {
-                const profileData = {
-                    name: document.getElementById('editTeacherName').value,
-                    email: document.getElementById('editTeacherEmail').value,
-                    phone: document.getElementById('editTeacherPhone').value,
-                    experience: document.getElementById('editTeacherExperience').value,
-                    qualifications: document.getElementById('editTeacherQualifications').value.split('\n').filter(q => q.trim()),
-                    achievements: document.getElementById('editTeacherAchievements').value.split('\n').filter(a => a.trim()),
-                    photoUrl: document.getElementById('editTeacherPhoto').value,
-                    updatedAt: new Date()
-                };
+                // Check if attendance already exists for today
+                const existingAttendance = await db.collection('attendance')
+                    .where('studentId', '==', studentId)
+                    .where('date', '==', today)
+                    .get();
                 
-                await db.collection('teacherProfile').doc('profile').set(profileData, { merge: true });
+                if (!existingAttendance.empty) {
+                    // Update existing attendance
+                    const docId = existingAttendance.docs[0].id;
+                    await db.collection('attendance').doc(docId).update({
+                        status: status,
+                        updatedAt: new Date()
+                    });
+                } else {
+                    // Create new attendance record
+                    await db.collection('attendance').add({
+                        studentId: studentId,
+                        date: today,
+                        status: status,
+                        createdAt: new Date()
+                    });
+                }
                 
-                showToast('Profile updated successfully!');
-                loadTeacherProfile();
-                toggleEditAbout();
+                // Update local state
+                todayAttendance[studentId] = status;
+                
+                // Update UI
+                showToast(`Attendance marked as ${status} for student`);
+                
+                // Re-open modal to show updated status
+                openMarkAttendanceModal();
                 
             } catch (error) {
-                showToast('Error updating profile: ' + error.message);
+                console.error('Error marking attendance:', error);
+                showToast('Error marking attendance: ' + error.message);
             }
+        }
+
+        // Save today's attendance
+        async function saveTodayAttendance() {
+            closeModal('markAttendanceModal');
+            showToast('Attendance saved successfully!');
+            loadTeacherData(); // Refresh data
         }
 
         // Add student
@@ -2198,8 +2318,6 @@
                 await db.collection('students').add(studentData);
                 closeModal('addStudentModal');
                 showToast('Student added successfully!');
-                loadStudents();
-                loadTeacherData();
                 
                 // Clear form
                 document.getElementById('studentName').value = '';
@@ -2207,8 +2325,91 @@
                 document.getElementById('studentMobile').value = '';
                 document.getElementById('monthlyFee').value = '';
                 
+                // Refresh data
+                loadTeacherData();
+                
             } catch (error) {
                 showToast('Error adding student: ' + error.message);
+            }
+        }
+
+        // Open edit student modal
+        async function openEditStudentModal(studentId) {
+            if (userRole !== 'teacher') return;
+            
+            const student = allStudents.find(s => s.id === studentId);
+            if (!student) return;
+            
+            document.getElementById('editStudentId').value = studentId;
+            document.getElementById('editStudentName').value = student.name || '';
+            document.getElementById('editFatherName').value = student.fatherName || '';
+            document.getElementById('editStudentClass').value = student.class || '9';
+            document.getElementById('editStudentMobile').value = student.mobile || '';
+            document.getElementById('editMonthlyFee').value = student.monthlyFee || 0;
+            document.getElementById('editPendingFee').value = student.feePending || 0;
+            
+            document.getElementById('editStudentModal').classList.add('active');
+        }
+
+        // Update student
+        async function updateStudent() {
+            if (userRole !== 'teacher') return;
+            
+            const studentId = document.getElementById('editStudentId').value;
+            const studentData = {
+                name: document.getElementById('editStudentName').value.trim(),
+                fatherName: document.getElementById('editFatherName').value.trim(),
+                class: document.getElementById('editStudentClass').value,
+                mobile: document.getElementById('editStudentMobile').value.trim(),
+                monthlyFee: parseFloat(document.getElementById('editMonthlyFee').value) || 0,
+                feePending: parseFloat(document.getElementById('editPendingFee').value) || 0,
+                updatedAt: new Date()
+            };
+            
+            try {
+                await db.collection('students').doc(studentId).update(studentData);
+                closeModal('editStudentModal');
+                showToast('Student updated successfully!');
+                loadTeacherData();
+            } catch (error) {
+                showToast('Error updating student: ' + error.message);
+            }
+        }
+
+        // Collect fee (simplified version)
+        async function collectFee(studentId, studentName) {
+            if (userRole !== 'teacher') return;
+            
+            const amount = prompt(`Enter fee amount to collect for ${studentName}:`, "0");
+            if (!amount || isNaN(amount) || parseFloat(amount) <= 0) {
+                showToast('Invalid amount entered');
+                return;
+            }
+            
+            try {
+                // Add to fees collection
+                await db.collection('fees').add({
+                    studentId: studentId,
+                    studentName: studentName,
+                    amount: parseFloat(amount),
+                    date: new Date(),
+                    createdAt: new Date()
+                });
+                
+                // Update student's pending fee
+                const student = allStudents.find(s => s.id === studentId);
+                if (student) {
+                    const newPending = Math.max(0, (student.feePending || 0) - parseFloat(amount));
+                    await db.collection('students').doc(studentId).update({
+                        feePending: newPending
+                    });
+                }
+                
+                showToast(`Fee of ₹${amount} collected successfully!`);
+                loadTeacherData();
+                
+            } catch (error) {
+                showToast('Error collecting fee: ' + error.message);
             }
         }
 
@@ -2272,7 +2473,130 @@
             editSection.style.display = editSection.style.display === 'none' ? 'block' : 'none';
         }
 
-        // Logout - FIXED: Clear all localStorage
+        // Update teacher profile
+        async function updateTeacherProfile() {
+            if (userRole !== 'teacher') return;
+            
+            try {
+                const profileData = {
+                    name: document.getElementById('editTeacherName').value,
+                    email: document.getElementById('editTeacherEmail').value,
+                    phone: document.getElementById('editTeacherPhone').value,
+                    experience: document.getElementById('editTeacherExperience').value,
+                    qualifications: document.getElementById('editTeacherQualifications').value.split('\n').filter(q => q.trim()),
+                    achievements: document.getElementById('editTeacherAchievements').value.split('\n').filter(a => a.trim()),
+                    photoUrl: document.getElementById('editTeacherPhoto').value,
+                    updatedAt: new Date()
+                };
+                
+                await db.collection('teacherProfile').doc('profile').set(profileData, { merge: true });
+                
+                showToast('Profile updated successfully!');
+                loadTeacherProfile();
+                toggleEditAbout();
+                
+            } catch (error) {
+                showToast('Error updating profile: ' + error.message);
+            }
+        }
+
+        // Delete student
+        async function deleteStudent(studentId) {
+            if (userRole !== 'teacher') return;
+            if (confirm('Are you sure you want to delete this student? This action cannot be undone.')) {
+                try {
+                    await db.collection('students').doc(studentId).delete();
+                    showToast('Student deleted successfully!');
+                    loadTeacherData();
+                } catch (error) {
+                    showToast('Error deleting student: ' + error.message);
+                }
+            }
+        }
+
+        // Delete test
+        async function deleteTest(testId) {
+            if (userRole !== 'teacher') return;
+            if (confirm('Are you sure you want to delete this test?')) {
+                try {
+                    await db.collection('tests').doc(testId).delete();
+                    showToast('Test deleted successfully!');
+                    loadTests();
+                } catch (error) {
+                    showToast('Error deleting test: ' + error.message);
+                }
+            }
+        }
+
+        // Load activities
+        async function loadActivities() {
+            try {
+                // Get recent activities from various collections
+                const recentFeedback = await db.collection('feedback')
+                    .orderBy('timestamp', 'desc')
+                    .limit(3)
+                    .get();
+                
+                const recentTests = await db.collection('tests')
+                    .orderBy('createdAt', 'desc')
+                    .limit(2)
+                    .get();
+                
+                let html = '';
+                let activityCount = 0;
+                
+                // Add feedback activities
+                recentFeedback.forEach(doc => {
+                    const feedback = doc.data();
+                    const date = feedback.timestamp ? new Date(feedback.timestamp.seconds * 1000).toLocaleDateString() : 'Today';
+                    html += `
+                        <tr>
+                            <td>${date}</td>
+                            <td>New feedback from ${feedback.name || 'Anonymous'}</td>
+                            <td><span class="badge badge-success">Received</span></td>
+                        </tr>
+                    `;
+                    activityCount++;
+                });
+                
+                // Add test activities
+                recentTests.forEach(doc => {
+                    const test = doc.data();
+                    const date = test.createdAt ? new Date(test.createdAt.seconds * 1000).toLocaleDateString() : 'Today';
+                    html += `
+                        <tr>
+                            <td>${date}</td>
+                            <td>New test uploaded: ${test.title}</td>
+                            <td><span class="badge badge-success">Published</span></td>
+                        </tr>
+                    `;
+                    activityCount++;
+                });
+                
+                // If no activities, show message
+                if (activityCount === 0) {
+                    html = '<tr><td colspan="3" style="text-align: center; color: #666;">No recent activities</td></tr>';
+                }
+                
+                document.getElementById('activitiesList').innerHTML = html;
+            } catch (error) {
+                console.error('Error loading activities:', error);
+                document.getElementById('activitiesList').innerHTML = '<tr><td colspan="3" class="loading">Error loading activities</td></tr>';
+            }
+        }
+
+        // Search students
+        function searchStudents() {
+            const searchTerm = document.getElementById('studentSearch').value.toLowerCase();
+            const studentCards = document.querySelectorAll('.student-card');
+            
+            studentCards.forEach(card => {
+                const text = card.textContent.toLowerCase();
+                card.style.display = text.includes(searchTerm) ? 'grid' : 'none';
+            });
+        }
+
+        // Logout
         function logout() {
             localStorage.removeItem('userMode');
             localStorage.removeItem('teacherLoggedIn');
@@ -2292,183 +2616,29 @@
             }, 3000);
         }
 
-        // Star rating hover effect
-        document.querySelectorAll('.star-rating input').forEach(input => {
-            input.addEventListener('change', function() {
-                const ratingText = document.getElementById('ratingText');
-                const ratings = {
-                    1: 'Poor - Needs improvement',
-                    2: 'Fair - Below expectations',
-                    3: 'Good - Met expectations',
-                    4: 'Very Good - Exceeded expectations',
-                    5: 'Excellent - Outstanding'
-                };
-                ratingText.textContent = ratings[this.value] || 'Select your rating';
-            });
-        });
-
         // Initialize star rating text
-        document.querySelectorAll('.star-rating label').forEach(label => {
-            label.addEventListener('mouseover', function() {
-                const input = document.querySelector('input[name="rating"]:checked');
-                if (!input) {
-                    document.getElementById('ratingText').textContent = this.title;
-                }
-            });
-            label.addEventListener('mouseout', function() {
-                const input = document.querySelector('input[name="rating"]:checked');
-                const ratings = {
-                    1: 'Poor - Needs improvement',
-                    2: 'Fair - Below expectations',
-                    3: 'Good - Met expectations',
-                    4: 'Very Good - Exceeded expectations',
-                    5: 'Excellent - Outstanding'
-                };
-                document.getElementById('ratingText').textContent = input ? ratings[input.value] : 'Select your rating';
-            });
-        });
-
-        // Search students
-        function searchStudents() {
-            const searchTerm = document.getElementById('studentSearch').value.toLowerCase();
-            const studentCards = document.querySelectorAll('.student-card');
-            
-            let foundCount = 0;
-            studentCards.forEach(card => {
-                const text = card.textContent.toLowerCase();
-                if (text.includes(searchTerm)) {
-                    card.style.display = 'grid';
-                    foundCount++;
-                } else {
-                    card.style.display = 'none';
-                }
-            });
-            
-            // Show message if no results
-            if (searchTerm && foundCount === 0) {
-                document.getElementById('studentsList').innerHTML += `
-                    <div style="text-align: center; padding: 20px; color: #666;">
-                        <i class="fas fa-search" style="font-size: 2rem; margin-bottom: 10px;"></i>
-                        <p>No students found matching "${searchTerm}"</p>
-                    </div>
-                `;
-            }
-        }
-
-        // Load attendance
-        async function loadAttendance() {
-            try {
-                const students = await db.collection('students').get();
-                
-                let html = '';
-                students.forEach(doc => {
-                    const student = doc.data();
-                    // Generate realistic attendance data
-                    const todayStatus = Math.random() > 0.2 ? 'Present' : 'Absent';
-                    const weekPresent = Math.floor(Math.random() * 5) + 1;
-                    const monthPresent = Math.floor(Math.random() * 20) + 10;
-                    const attendancePercent = Math.floor((monthPresent / 30) * 100);
-                    
-                    html += `
-                        <tr>
-                            <td>${student.name}</td>
-                            <td>Grade ${student.class}</td>
-                            <td><span class="badge ${todayStatus === 'Present' ? 'badge-success' : 'badge-danger'}">${todayStatus}</span></td>
-                            <td>${weekPresent}/5 days</td>
-                            <td>${monthPresent}/30 days</td>
-                            <td>
-                                <div style="display: flex; align-items: center; gap: 10px;">
-                                    <span>${attendancePercent}%</span>
-                                    <div style="flex: 1; height: 8px; background: #eee; border-radius: 4px; overflow: hidden;">
-                                        <div style="width: ${attendancePercent}%; height: 100%; background: ${attendancePercent > 80 ? 'var(--success)' : attendancePercent > 60 ? 'var(--warning)' : 'var(--danger)'};"></div>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                    `;
-                });
-                
-                document.getElementById('attendanceTable').innerHTML = html;
-            } catch (error) {
-                console.error('Error loading attendance:', error);
-                document.getElementById('attendanceTable').innerHTML = '<tr><td colspan="6" class="loading">Error loading attendance</td></tr>';
-            }
-        }
-
-        // Load activities
-        async function loadActivities() {
-            // For demo, create sample activities
-            const activities = userRole === 'teacher' ? [
-                { date: 'Today', activity: 'New student enrolled - Rohan Sharma', status: 'Completed' },
-                { date: 'Yesterday', activity: 'Monthly fees collected - ₹15,000', status: 'Completed' },
-                { date: '2 days ago', activity: 'Algebra test uploaded for Grade 10', status: 'Completed' },
-                { date: '1 week ago', activity: 'Parent meeting scheduled', status: 'Pending' },
-                { date: '2 weeks ago', activity: 'New study material added', status: 'Completed' }
-            ] : [
-                { date: 'Today', activity: 'Algebra class completed', status: 'Attended' },
-                { date: 'Yesterday', activity: 'Geometry assignment submitted', status: 'Completed' },
-                { date: '3 days ago', activity: 'Monthly test downloaded', status: 'Completed' },
-                { date: '1 week ago', activity: 'Feedback submitted', status: 'Completed' }
-            ];
-            
-            let html = '';
-            activities.forEach(activity => {
-                const statusClass = activity.status === 'Completed' || activity.status === 'Attended' ? 'badge-success' : 'badge-warning';
-                html += `
-                    <tr>
-                        <td>${activity.date}</td>
-                        <td>${activity.activity}</td>
-                        <td><span class="badge ${statusClass}">${activity.status}</span></td>
-                    </tr>
-                `;
-            });
-            
-            document.getElementById('activitiesList').innerHTML = html;
-        }
-
-        // Mark attendance for today (teacher only)
-        async function markAttendanceToday() {
-            if (userRole !== 'teacher') return;
-            showToast('Attendance marking feature will be implemented here');
-        }
-
-        // Delete student (teacher only)
-        async function deleteStudent(studentId) {
-            if (userRole !== 'teacher') return;
-            if (confirm('Are you sure you want to delete this student? This action cannot be undone.')) {
-                try {
-                    await db.collection('students').doc(studentId).delete();
-                    showToast('Student deleted successfully!');
-                    loadStudents();
-                } catch (error) {
-                    showToast('Error deleting student: ' + error.message);
-                }
-            }
-        }
-
-        // Delete test (teacher only)
-        async function deleteTest(testId) {
-            if (userRole !== 'teacher') return;
-            if (confirm('Are you sure you want to delete this test?')) {
-                try {
-                    await db.collection('tests').doc(testId).delete();
-                    showToast('Test deleted successfully!');
-                    loadTests();
-                } catch (error) {
-                    showToast('Error deleting test: ' + error.message);
-                }
-            }
-        }
-
-        // Edit student (placeholder)
-        function editStudent(studentId) {
-            showToast('Edit student feature will be implemented in next version');
-        }
-
-        // Initialize star rating text on page load
         document.addEventListener('DOMContentLoaded', function() {
             const ratingText = document.getElementById('ratingText');
-            ratingText.textContent = 'Select your rating';
+            if (ratingText) {
+                ratingText.textContent = 'Select your rating';
+            }
+            
+            // Star rating event listeners
+            document.querySelectorAll('.star-rating input').forEach(input => {
+                input.addEventListener('change', function() {
+                    const ratingText = document.getElementById('ratingText');
+                    const ratings = {
+                        1: 'Poor - Needs improvement',
+                        2: 'Fair - Below expectations',
+                        3: 'Good - Met expectations',
+                        4: 'Very Good - Exceeded expectations',
+                        5: 'Excellent - Outstanding'
+                    };
+                    if (ratingText) {
+                        ratingText.textContent = ratings[this.value] || 'Select your rating';
+                    }
+                });
+            });
         });
     </script>
 </body>
