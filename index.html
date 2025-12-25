@@ -137,6 +137,11 @@
             color: var(--dark);
         }
 
+        .form-group label.required:after {
+            content: " *";
+            color: var(--danger);
+        }
+
         .form-control {
             width: 100%;
             padding: 14px 16px;
@@ -417,6 +422,68 @@
             border: 1px solid rgba(58, 134, 255, 0.3);
         }
 
+        /* Student Cards - NEW IMPROVED DESIGN */
+        .student-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            border-left: 5px solid var(--primary);
+            display: grid;
+            grid-template-columns: 80px 1fr;
+            gap: 20px;
+            align-items: start;
+        }
+
+        .student-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.12);
+        }
+
+        .student-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: bold;
+            border: 4px solid white;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .student-info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .student-info-item {
+            background: #f8f9fa;
+            padding: 12px 15px;
+            border-radius: 10px;
+            border-left: 3px solid var(--primary);
+        }
+
+        .student-info-item strong {
+            display: block;
+            color: var(--primary);
+            font-size: 0.85rem;
+            margin-bottom: 5px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .student-info-item span {
+            color: var(--dark);
+            font-size: 1rem;
+        }
+
         /* Test Cards */
         .test-card {
             background: white;
@@ -510,20 +577,21 @@
             margin-bottom: 40px;
         }
 
+        /* BIGGER PHOTO FRAME */
         .teacher-photo {
-            width: 200px;
-            height: 200px;
+            width: 250px;
+            height: 250px;
             border-radius: 50%;
             margin: 0 auto 25px;
             overflow: hidden;
-            border: 5px solid white;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            border: 6px solid white;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
             animation: float 3s ease-in-out infinite;
         }
 
         @keyframes float {
             0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
+            50% { transform: translateY(-15px); }
         }
 
         .teacher-photo img {
@@ -533,7 +601,7 @@
         }
 
         .teacher-info h2 {
-            font-size: 2.5rem;
+            font-size: 2.8rem;
             margin-bottom: 10px;
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             -webkit-background-clip: text;
@@ -543,7 +611,7 @@
 
         .teacher-info p {
             color: #666;
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             margin-bottom: 20px;
         }
 
@@ -552,6 +620,7 @@
             justify-content: center;
             gap: 20px;
             margin-top: 20px;
+            flex-wrap: wrap;
         }
 
         .contact-item {
@@ -569,6 +638,7 @@
             background: var(--primary);
             color: white;
             transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(58, 134, 255, 0.3);
         }
 
         .contact-item:hover i {
@@ -646,6 +716,7 @@
             padding: 30px;
             border-radius: 15px;
             margin-bottom: 30px;
+            border: 2px dashed var(--primary);
         }
 
         .feedback-list {
@@ -659,6 +730,11 @@
             border-radius: 15px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.05);
             border-left: 4px solid var(--primary);
+            transition: transform 0.3s ease;
+        }
+
+        .feedback-item:hover {
+            transform: translateY(-3px);
         }
 
         .feedback-header {
@@ -670,6 +746,7 @@
 
         .feedback-stars {
             color: var(--gold);
+            font-size: 1.2rem;
         }
 
         .feedback-date {
@@ -777,43 +854,150 @@
             }
             
             .teacher-photo {
-                width: 150px;
-                height: 150px;
+                width: 200px;
+                height: 200px;
+            }
+            
+            .student-card {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            
+            .student-avatar {
+                margin: 0 auto;
             }
         }
 
         /* Student View Styles */
         .read-only-notice {
-            background: linear-gradient(135deg, #4CAF50, #45a049);
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: white;
-            padding: 12px 20px;
-            border-radius: 10px;
-            margin-bottom: 20px;
+            padding: 15px 20px;
+            border-radius: 12px;
+            margin-bottom: 25px;
             text-align: center;
-            animation: pulse 2s infinite;
+            animation: slideInDown 0.6s ease;
+            box-shadow: 0 8px 20px rgba(58, 134, 255, 0.2);
         }
 
         .student-warning {
-            background: var(--warning);
+            background: linear-gradient(135deg, var(--warning), #ffc107);
             color: var(--dark);
-            padding: 10px 15px;
-            border-radius: 8px;
-            margin-bottom: 15px;
-            font-size: 0.9rem;
+            padding: 12px 18px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-size: 1rem;
+            border-left: 4px solid #e6a700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
-        /* Fixed Password Info */
-        .password-info {
-            background: #e3f2fd;
-            border-left: 4px solid var(--primary);
+        /* Password Info */
+        .password-note {
+            background: #e8f4ff;
+            border: 2px dashed var(--primary);
             padding: 12px 15px;
             margin-top: 15px;
-            border-radius: 8px;
+            border-radius: 10px;
             font-size: 0.9rem;
+            color: var(--dark);
         }
 
-        .password-info strong {
+        .password-note i {
             color: var(--primary);
+            margin-right: 8px;
+        }
+
+        /* Success Toast */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--success);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            display: none;
+            z-index: 9999;
+            animation: slideInRight 0.3s ease;
+        }
+
+        @keyframes slideInRight {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        .toast i {
+            margin-right: 10px;
+        }
+
+        /* Student Dashboard Cards */
+        .student-dashboard-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .student-dashboard-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.12);
+        }
+
+        .student-dashboard-card i {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+
+        .student-dashboard-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: var(--dark);
+        }
+
+        .student-dashboard-card p {
+            color: #666;
+            line-height: 1.5;
+        }
+
+        /* Action Buttons for Teacher */
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .action-btn {
+            padding: 8px 16px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .action-btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .action-btn-danger {
+            background: var(--danger);
+            color: white;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
     </style>
 </head>
@@ -832,20 +1016,20 @@
             <div class="option-card" onclick="showTeacherLogin()">
                 <i class="fas fa-chalkboard-teacher"></i>
                 <h3>Teacher Login</h3>
-                <p>Access full management dashboard (Password: S@tyam)</p>
+                <p>Access full management dashboard</p>
             </div>
             
             <div class="option-card" onclick="enterStudentMode()">
                 <i class="fas fa-user-graduate"></i>
                 <h3>Student Access</h3>
-                <p>View classes, download tests, submit feedback (No login needed)</p>
+                <p>View classes, download tests, submit feedback</p>
             </div>
         </div>
 
         <div id="teacherLoginForm" style="display: none; margin-top: 30px;">
-            <div class="password-info">
-                <i class="fas fa-info-circle"></i> 
-                <strong>Fixed Password:</strong> S@tyam (For teacher access only)
+            <div class="password-note">
+                <i class="fas fa-lock"></i>
+                <span>Use teacher password for access</span>
             </div>
             <div class="form-group">
                 <label>Teacher Email Address</label>
@@ -853,7 +1037,7 @@
             </div>
             <div class="form-group">
                 <label>Password</label>
-                <input type="password" id="loginPassword" class="form-control" placeholder="Enter fixed password" value="S@tyam">
+                <input type="password" id="loginPassword" class="form-control" placeholder="Enter password">
             </div>
             <button class="btn btn-primary" onclick="login()">
                 <i class="fas fa-sign-in-alt"></i> Teacher Login
@@ -868,7 +1052,9 @@
     <div id="app" style="display: none;">
         <!-- Student View Notice -->
         <div id="studentNotice" class="read-only-notice" style="display: none;">
-            <i class="fas fa-user-graduate"></i> <strong>STUDENT VIEW</strong> - You're viewing in read-only mode
+            <i class="fas fa-user-graduate"></i> 
+            <strong>STUDENT VIEW - READ ONLY ACCESS</strong>
+            <p style="margin-top: 5px; font-size: 0.9rem; opacity: 0.9;">You can view information and submit feedback</p>
         </div>
 
         <!-- Header -->
@@ -950,6 +1136,36 @@
                 </div>
             </div>
 
+            <div id="studentDashboard" style="display: none;">
+                <div class="student-warning">
+                    <i class="fas fa-info-circle"></i> 
+                    You're viewing in read-only mode. Contact teacher for any changes.
+                </div>
+                
+                <div class="stats-grid">
+                    <div class="student-dashboard-card">
+                        <i class="fas fa-user-graduate"></i>
+                        <h3>View Students</h3>
+                        <p>See all registered students in the class</p>
+                    </div>
+                    <div class="student-dashboard-card">
+                        <i class="fas fa-calendar-check"></i>
+                        <h3>Check Attendance</h3>
+                        <p>View your attendance records</p>
+                    </div>
+                    <div class="student-dashboard-card">
+                        <i class="fas fa-file-pdf"></i>
+                        <h3>Download Tests</h3>
+                        <p>Access monthly tests and quizzes</p>
+                    </div>
+                    <div class="student-dashboard-card">
+                        <i class="fas fa-star"></i>
+                        <h3>Submit Feedback</h3>
+                        <p>Share your experience with teacher</p>
+                    </div>
+                </div>
+            </div>
+
             <h3 style="margin: 25px 0 15px; font-family: 'Poppins', sans-serif;">Recent Activities</h3>
             <div class="table-container">
                 <table class="table">
@@ -970,18 +1186,24 @@
         <!-- Students Section -->
         <section id="students" class="content-section">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                <h3 style="font-family: 'Poppins', sans-serif;">Student Management</h3>
+                <h3 style="font-family: 'Poppins', sans-serif;">
+                    <i class="fas fa-user-graduate"></i> 
+                    <span id="studentsTitle">Student Management</span>
+                </h3>
                 <button class="btn btn-primary" onclick="openAddStudentModal()" id="addStudentBtn" style="display: none;">
                     <i class="fas fa-plus"></i> Add Student
                 </button>
             </div>
 
             <div class="student-warning" id="studentViewWarning" style="display: none;">
-                <i class="fas fa-info-circle"></i> You're viewing in read-only mode. Contact teacher for any changes.
+                <i class="fas fa-eye"></i> 
+                <span>Read-only view - You can see student information but cannot make changes</span>
             </div>
 
             <div class="form-group">
-                <input type="text" id="studentSearch" class="form-control" placeholder="Search by name, father name, or class..." onkeyup="searchStudents()">
+                <input type="text" id="studentSearch" class="form-control" 
+                       placeholder="Search students by name, class, or father's name..." 
+                       onkeyup="searchStudents()">
             </div>
 
             <div id="studentsList">
@@ -995,7 +1217,10 @@
         <!-- Attendance Section -->
         <section id="attendance" class="content-section">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                <h3 style="font-family: 'Poppins', sans-serif;">Attendance Tracking</h3>
+                <h3 style="font-family: 'Poppins', sans-serif;">
+                    <i class="fas fa-calendar-check"></i> 
+                    Attendance Tracking
+                </h3>
                 <div id="attendanceActions" style="display: none;">
                     <select id="attendanceMonth" class="form-control" style="width: auto; display: inline-block;" onchange="loadAttendance()">
                         <option value="current">Current Month</option>
@@ -1009,7 +1234,8 @@
             </div>
 
             <div class="student-warning" id="attendanceWarning" style="display: none;">
-                <i class="fas fa-eye"></i> Attendance view only - Updates made by teacher
+                <i class="fas fa-info-circle"></i> 
+                Attendance view only - Updates made by teacher
             </div>
 
             <div class="table-container">
@@ -1034,14 +1260,18 @@
         <!-- Tests & Quizzes Section -->
         <section id="tests" class="content-section">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                <h3 style="font-family: 'Poppins', sans-serif;">Tests & Quizzes</h3>
+                <h3 style="font-family: 'Poppins', sans-serif;">
+                    <i class="fas fa-file-pdf"></i> 
+                    Tests & Quizzes
+                </h3>
                 <button class="btn btn-primary" onclick="openAddTestModal()" id="addTestBtn" style="display: none;">
                     <i class="fas fa-plus"></i> Add Test
                 </button>
             </div>
 
             <div class="student-warning" id="testsWarning" style="display: none;">
-                <i class="fas fa-download"></i> Click download button to get test papers
+                <i class="fas fa-download"></i> 
+                Click download button to get test papers and quizzes
             </div>
 
             <div id="testsList">
@@ -1055,14 +1285,31 @@
         <!-- Feedback Section -->
         <section id="feedback" class="content-section">
             <div class="feedback-container">
-                <h3 style="font-family: 'Poppins', sans-serif; margin-bottom: 25px;">Student Feedback</h3>
+                <h3 style="font-family: 'Poppins', sans-serif; margin-bottom: 25px;">
+                    <i class="fas fa-star"></i> 
+                    Student Feedback System
+                </h3>
                 
                 <!-- Feedback Form (only for student view) -->
                 <div class="feedback-form" id="feedbackForm">
-                    <h4 style="margin-bottom: 20px;">Submit Your Feedback</h4>
+                    <h4 style="margin-bottom: 20px; color: var(--primary);">
+                        <i class="fas fa-comment-alt"></i> 
+                        Submit Your Feedback
+                    </h4>
                     
                     <div class="form-group">
-                        <label>Your Rating</label>
+                        <label class="required">Your Name</label>
+                        <input type="text" id="feedbackName" class="form-control" placeholder="Enter your full name" required>
+                        <small style="color: #666; font-size: 0.85rem;">Your name is required for feedback submission</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Phone Number (Optional)</label>
+                        <input type="tel" id="feedbackPhone" class="form-control" placeholder="Enter your phone number">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="required">Your Rating</label>
                         <div class="star-rating">
                             <input type="radio" id="star5" name="rating" value="5">
                             <label for="star5" title="5 stars - Excellent"></label>
@@ -1075,26 +1322,24 @@
                             <input type="radio" id="star1" name="rating" value="1">
                             <label for="star1" title="1 star - Poor"></label>
                         </div>
-                        <div class="rating-text" id="ratingText">Select a rating</div>
+                        <div class="rating-text" id="ratingText">Select your rating</div>
                     </div>
                     
                     <div class="form-group">
-                        <label>Your Name (Optional)</label>
-                        <input type="text" id="feedbackName" class="form-control" placeholder="Enter your name">
+                        <label>Your Feedback (Optional)</label>
+                        <textarea id="feedbackText" class="form-control" rows="4" placeholder="Share your experience, suggestions, or comments about the classes..."></textarea>
                     </div>
                     
-                    <div class="form-group">
-                        <label>Your Feedback</label>
-                        <textarea id="feedbackText" class="form-control" rows="4" placeholder="Share your experience, suggestions, or comments..."></textarea>
-                    </div>
-                    
-                    <button class="btn btn-success" onclick="submitFeedback()">
+                    <button class="btn btn-success" onclick="submitFeedback()" style="margin-top: 10px;">
                         <i class="fas fa-paper-plane"></i> Submit Feedback
                     </button>
                 </div>
 
                 <!-- Feedback List -->
-                <h4 style="margin: 30px 0 15px;">Recent Feedback</h4>
+                <h4 style="margin: 30px 0 15px; font-family: 'Poppins', sans-serif;">
+                    <i class="fas fa-list"></i> 
+                    Recent Feedback
+                </h4>
                 <div class="feedback-list" id="feedbackList">
                     <div class="loading">
                         <i class="fas fa-spinner fa-spin"></i>
@@ -1109,10 +1354,10 @@
             <div class="about-container">
                 <div class="teacher-profile">
                     <div class="teacher-photo">
-                        <img src="https://raw.githubusercontent.com/SatyamKumarSingh1/coaching/master/Mithilesh.jpg" 
+                        <img src="https://raw.githubusercontent.com/Satqm/Mithilesh-/main/Mithilesh.jpg" 
                              alt="Mr. Mithilesh" 
                              id="teacherImage"
-                             onerror="this.src='https://via.placeholder.com/200/3a86ff/ffffff?text=Mr.+Mithilesh'">
+                             onerror="this.onerror=null; this.src='https://via.placeholder.com/250/3a86ff/ffffff?text=Mr.+Mithilesh'">
                     </div>
                     
                     <div class="teacher-info">
@@ -1122,7 +1367,7 @@
                         <div class="contact-info">
                             <div class="contact-item" onclick="window.open('https://wa.me/919334420038', '_blank')">
                                 <i class="fab fa-whatsapp"></i>
-                                <span>+91 93344 20038</span>
+                                <span>WhatsApp: +91 93344 20038</span>
                             </div>
                             <div class="contact-item">
                                 <i class="fas fa-envelope"></i>
@@ -1140,12 +1385,21 @@
                             <li>B.Ed. in Mathematics Education</li>
                             <li>CTET Qualified (Mathematics)</li>
                             <li>NET/JRF Qualified</li>
+                            <li>Ph.D. in Mathematics (Pursuing)</li>
                         </ul>
                     </div>
                     
                     <div class="qualification-card">
                         <h4><i class="fas fa-chart-line"></i> Teaching Experience</h4>
                         <p id="experienceText">12+ years of teaching experience specializing in CBSE, ICSE, and State Board Mathematics for classes 9-12. Expert in preparing students for JEE Mains, JEE Advanced, and other competitive exams.</p>
+                        <div style="margin-top: 15px; padding: 10px; background: rgba(58, 134, 255, 0.1); border-radius: 8px;">
+                            <strong>Specializations:</strong>
+                            <ul style="margin-top: 5px;">
+                                <li>Algebra & Calculus</li>
+                                <li>Geometry & Trigonometry</li>
+                                <li>Statistics & Probability</li>
+                            </ul>
+                        </div>
                     </div>
                     
                     <div class="qualification-card">
@@ -1155,6 +1409,7 @@
                             <li>95%+ Board Exam Success Rate</li>
                             <li>50+ JEE Advanced Selections</li>
                             <li>Best Teacher Award 2022</li>
+                            <li>Student Satisfaction: 4.8/5</li>
                         </ul>
                     </div>
                 </div>
@@ -1197,11 +1452,11 @@
                     
                     <div class="form-group">
                         <label>Teacher Photo URL</label>
-                        <input type="text" id="editTeacherPhoto" class="form-control" value="https://raw.githubusercontent.com/SatyamKumarSingh1/coaching/master/Mithilesh.jpg">
-                        <small>Use GitHub image URL or any online image link</small>
+                        <input type="text" id="editTeacherPhoto" class="form-control" value="https://raw.githubusercontent.com/Satqm/Mithilesh-/main/Mithilesh.jpg">
+                        <small>Use GitHub raw image URL (not blob link)</small>
                     </div>
                     
-                    <button class="btn btn-primary" onclick="updateTeacherProfile()">
+                    <button class="btn btn-primary" onclick="updateTeacherProfile()" style="margin-top: 10px;">
                         <i class="fas fa-save"></i> Save Changes
                     </button>
                 </div>
@@ -1220,7 +1475,7 @@
     <div class="modal-overlay" id="addStudentModal">
         <div class="modal">
             <div class="modal-header">
-                <h3>Add New Student</h3>
+                <h3><i class="fas fa-user-plus"></i> Add New Student</h3>
                 <button onclick="closeModal('addStudentModal')">&times;</button>
             </div>
             <div class="modal-body">
@@ -1259,7 +1514,7 @@
     <div class="modal-overlay" id="addTestModal">
         <div class="modal">
             <div class="modal-header">
-                <h3>Add Monthly Test</h3>
+                <h3><i class="fas fa-file-upload"></i> Add Monthly Test</h3>
                 <button onclick="closeModal('addTestModal')">&times;</button>
             </div>
             <div class="modal-body">
@@ -1293,7 +1548,7 @@
     </div>
 
     <!-- Success Toast -->
-    <div id="successToast" style="position: fixed; bottom: 20px; right: 20px; background: var(--success); color: white; padding: 15px 25px; border-radius: 10px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); display: none; z-index: 9999;">
+    <div class="toast" id="successToast">
         <i class="fas fa-check-circle"></i> <span id="toastMessage">Success!</span>
     </div>
 
@@ -1325,12 +1580,19 @@
         const userRoleElement = document.getElementById('userRole');
         const userAvatar = document.getElementById('userAvatar');
 
-        // Initialize app
+        // Initialize app - FIXED: Stay logged in on refresh
         document.addEventListener('DOMContentLoaded', function() {
-            // Check if user is already logged in (teacher mode only)
+            // Check if user is already logged in
+            const userMode = localStorage.getItem('userMode');
             const teacherLoggedIn = localStorage.getItem('teacherLoggedIn');
-            if (teacherLoggedIn === 'true') {
-                // Set teacher mode
+            
+            if (userMode === 'student') {
+                // Student mode
+                userRole = 'student';
+                showApp();
+                loadStudentData();
+            } else if (teacherLoggedIn === 'true') {
+                // Teacher mode
                 userRole = 'teacher';
                 showApp();
                 loadTeacherData();
@@ -1360,7 +1622,7 @@
             }
             
             if (password !== FIXED_PASSWORD) {
-                showToast('Incorrect password. Use: S@tyam');
+                showToast('Incorrect password');
                 return;
             }
             
@@ -1369,13 +1631,14 @@
                 await auth.signInWithEmailAndPassword(email, password);
                 userRole = 'teacher';
                 
-                // Store teacher login state
+                // Store login state
+                localStorage.setItem('userMode', 'teacher');
                 localStorage.setItem('teacherLoggedIn', 'true');
                 
                 // Set teacher role in Firestore
                 const user = auth.currentUser;
                 await db.collection('users').doc(user.uid).set({
-                    name: email.split('@')[0],
+                    name: 'Mr. Mithilesh',
                     email: email,
                     role: 'teacher',
                     lastLogin: new Date()
@@ -1393,7 +1656,8 @@
                         await auth.createUserWithEmailAndPassword(email, password);
                         userRole = 'teacher';
                         
-                        // Store teacher login state
+                        // Store login state
+                        localStorage.setItem('userMode', 'teacher');
                         localStorage.setItem('teacherLoggedIn', 'true');
                         
                         // Create teacher document
@@ -1413,7 +1677,7 @@
                             experience: '12+ years of teaching experience specializing in CBSE, ICSE, and State Board Mathematics for classes 9-12.',
                             qualifications: ['M.Sc. in Mathematics (Gold Medalist)', 'B.Ed. in Mathematics Education', 'CTET Qualified (Mathematics)', 'NET/JRF Qualified'],
                             achievements: ['1000+ Students Taught', '95%+ Board Exam Success Rate', '50+ JEE Advanced Selections', 'Best Teacher Award 2022'],
-                            photoUrl: 'https://raw.githubusercontent.com/SatyamKumarSingh1/coaching/master/Mithilesh.jpg'
+                            photoUrl: 'https://raw.githubusercontent.com/Satqm/Mithilesh-/main/Mithilesh.jpg'
                         });
                         
                         showApp();
@@ -1429,12 +1693,14 @@
             }
         }
 
-        // Enter student mode (no login required)
+        // Enter student mode (no login required) - FIXED: Save state
         function enterStudentMode() {
             userRole = 'student';
+            localStorage.setItem('userMode', 'student');
+            localStorage.removeItem('teacherLoggedIn');
             showApp();
             loadStudentData();
-            showToast('Student mode activated. View-only access.');
+            showToast('Student mode activated. You can view information and submit feedback.');
         }
 
         // Show main app
@@ -1453,27 +1719,30 @@
                 document.getElementById('addTestBtn').style.display = 'block';
                 document.getElementById('attendanceActions').style.display = 'flex';
                 document.getElementById('editAboutButton').style.display = 'block';
+                document.getElementById('studentsTitle').textContent = 'Student Management';
                 
-                // Hide student notices
+                // Hide student elements
                 document.getElementById('studentNotice').style.display = 'none';
                 document.getElementById('studentViewWarning').style.display = 'none';
                 document.getElementById('attendanceWarning').style.display = 'none';
                 document.getElementById('testsWarning').style.display = 'none';
+                document.getElementById('studentDashboard').style.display = 'none';
+                document.getElementById('feedbackForm').style.display = 'none';
                 
             } else {
-                welcomeMessage.textContent = 'Welcome, Student!';
-                userRoleElement.textContent = 'Student View (Read-Only)';
+                welcomeMessage.textContent = 'Welcome to Math Classes!';
+                userRoleElement.textContent = 'Student Access Portal';
                 userAvatar.textContent = 'S';
                 document.getElementById('logoutBtn').innerHTML = '<i class="fas fa-home"></i> Back to Login';
                 
-                // Show student notices
+                // Show student elements
                 document.getElementById('studentNotice').style.display = 'block';
                 document.getElementById('studentViewWarning').style.display = 'block';
                 document.getElementById('attendanceWarning').style.display = 'block';
                 document.getElementById('testsWarning').style.display = 'block';
-                
-                // Show feedback form for students
+                document.getElementById('studentDashboard').style.display = 'block';
                 document.getElementById('feedbackForm').style.display = 'block';
+                document.getElementById('studentsTitle').textContent = 'Class Students';
                 
                 // Hide teacher-only elements
                 document.getElementById('addStudentBtn').style.display = 'none';
@@ -1544,6 +1813,7 @@
                 
             } catch (error) {
                 console.error('Error loading teacher data:', error);
+                showToast('Error loading data: ' + error.message);
             }
         }
 
@@ -1553,6 +1823,14 @@
                 // Load basic info
                 const students = await db.collection('students').get();
                 document.getElementById('totalStudents').textContent = students.size;
+                
+                // Set attendance percentage (demo)
+                document.getElementById('attendancePercent').textContent = '85%';
+                document.getElementById('feesCollected').textContent = 'N/A';
+                document.getElementById('pendingFees').textContent = 'N/A';
+                
+                // Load activities
+                loadActivities();
                 
                 // Load teacher profile
                 loadTeacherProfile();
@@ -1571,6 +1849,7 @@
                 
             } catch (error) {
                 console.error('Error loading student data:', error);
+                showToast('Error loading student data');
             }
         }
 
@@ -1616,7 +1895,7 @@
                     document.getElementById('editTeacherExperience').value = data.experience || '';
                     document.getElementById('editTeacherQualifications').value = (data.qualifications || []).join('\n');
                     document.getElementById('editTeacherAchievements').value = (data.achievements || []).join('\n');
-                    document.getElementById('editTeacherPhoto').value = data.photoUrl || 'https://raw.githubusercontent.com/SatyamKumarSingh1/coaching/master/Mithilesh.jpg';
+                    document.getElementById('editTeacherPhoto').value = data.photoUrl || 'https://raw.githubusercontent.com/Satqm/Mithilesh-/main/Mithilesh.jpg';
                     
                     // Update photo if URL exists
                     if (data.photoUrl) {
@@ -1643,7 +1922,7 @@
             document.getElementById(sectionId).classList.add('active');
         }
 
-        // Load students
+        // Load students - FIXED: Improved UI and removed fees for students
         async function loadStudents() {
             try {
                 const studentsSnapshot = await db.collection('students').orderBy('name').get();
@@ -1657,26 +1936,77 @@
                 let html = '';
                 studentsSnapshot.forEach(doc => {
                     const student = doc.data();
-                    html += `
-                        <div class="student-card">
-                            <div class="student-avatar">${student.name.charAt(0).toUpperCase()}</div>
-                            <div style="flex: 1;">
-                                <h4>${student.name}</h4>
-                                <p>Father: ${student.fatherName || 'Not specified'}</p>
-                                <p>Class: Grade ${student.class} | Mobile: ${student.mobile || 'Not specified'}</p>
-                                <p>Monthly Fee: ₹${student.monthlyFee || 0} | Pending: ₹${student.feePending || 0}</p>
+                    const firstLetter = student.name ? student.name.charAt(0).toUpperCase() : 'S';
+                    
+                    if (userRole === 'teacher') {
+                        // Teacher view with all info
+                        html += `
+                            <div class="student-card">
+                                <div class="student-avatar">${firstLetter}</div>
+                                <div>
+                                    <h3 style="margin-bottom: 10px; color: var(--primary);">${student.name}</h3>
+                                    <div class="student-info-grid">
+                                        <div class="student-info-item">
+                                            <strong>Father's Name</strong>
+                                            <span>${student.fatherName || 'Not specified'}</span>
+                                        </div>
+                                        <div class="student-info-item">
+                                            <strong>Class</strong>
+                                            <span>Grade ${student.class}</span>
+                                        </div>
+                                        <div class="student-info-item">
+                                            <strong>Mobile</strong>
+                                            <span>${student.mobile || 'Not specified'}</span>
+                                        </div>
+                                        <div class="student-info-item">
+                                            <strong>Monthly Fee</strong>
+                                            <span>₹${student.monthlyFee || 0}</span>
+                                        </div>
+                                        <div class="student-info-item">
+                                            <strong>Pending Fee</strong>
+                                            <span>₹${student.feePending || 0}</span>
+                                        </div>
+                                    </div>
+                                    <div class="action-buttons">
+                                        <button class="action-btn action-btn-primary" onclick="editStudent('${doc.id}')">
+                                            <i class="fas fa-edit"></i> Edit
+                                        </button>
+                                        <button class="action-btn action-btn-danger" onclick="deleteStudent('${doc.id}')">
+                                            <i class="fas fa-trash"></i> Delete
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
-                            ${userRole === 'teacher' ? `
-                            <div>
-                                <button class="action-btn btn-primary" onclick="editStudent('${doc.id}')">
-                                    <i class="fas fa-edit"></i> Edit
-                                </button>
-                                <button class="action-btn btn-danger" onclick="deleteStudent('${doc.id}')">
-                                    <i class="fas fa-trash"></i> Delete
-                                </button>
-                            </div>` : ''}
-                        </div>
-                    `;
+                        `;
+                    } else {
+                        // Student view without fees
+                        html += `
+                            <div class="student-card">
+                                <div class="student-avatar">${firstLetter}</div>
+                                <div>
+                                    <h3 style="margin-bottom: 10px; color: var(--primary);">${student.name}</h3>
+                                    <div class="student-info-grid">
+                                        <div class="student-info-item">
+                                            <strong>Father's Name</strong>
+                                            <span>${student.fatherName || 'Not specified'}</span>
+                                        </div>
+                                        <div class="student-info-item">
+                                            <strong>Class</strong>
+                                            <span>Grade ${student.class}</span>
+                                        </div>
+                                        <div class="student-info-item">
+                                            <strong>Mobile</strong>
+                                            <span>${student.mobile || 'Not specified'}</span>
+                                        </div>
+                                        <div class="student-info-item">
+                                            <strong>Joined</strong>
+                                            <span>${student.createdAt ? new Date(student.createdAt.seconds * 1000).toLocaleDateString() : 'Recent'}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    }
                 });
                 
                 studentsList.innerHTML = html;
@@ -1693,7 +2023,7 @@
                 const testsList = document.getElementById('testsList');
                 
                 if (testsSnapshot.empty) {
-                    testsList.innerHTML = '<div class="loading">No tests available</div>';
+                    testsList.innerHTML = '<div class="loading">No tests available yet</div>';
                     return;
                 }
                 
@@ -1709,6 +2039,7 @@
                                 <div class="test-class">Grade ${test.class === 'all' ? 'All' : test.class}</div>
                             </div>
                             <p><strong>Date:</strong> ${testDate}</p>
+                            <p><strong>Description:</strong> Monthly test paper for practice</p>
                             <div class="test-actions">
                                 <button class="btn btn-primary download-btn" onclick="window.open('${test.link}', '_blank')">
                                     <i class="fas fa-download"></i> Download Test PDF
@@ -1736,7 +2067,7 @@
                 const feedbackList = document.getElementById('feedbackList');
                 
                 if (feedbackSnapshot.empty) {
-                    feedbackList.innerHTML = '<div class="loading">No feedback yet</div>';
+                    feedbackList.innerHTML = '<div class="loading">No feedback yet. Be the first to submit!</div>';
                     return;
                 }
                 
@@ -1749,13 +2080,16 @@
                     html += `
                         <div class="feedback-item">
                             <div class="feedback-header">
-                                <div class="feedback-stars" title="${feedback.rating} stars">
-                                    ${stars}
+                                <div>
+                                    <strong>${feedback.name || 'Anonymous'}</strong>
+                                    ${feedback.phone ? `<br><small style="color: #666;">${feedback.phone}</small>` : ''}
                                 </div>
                                 <div class="feedback-date">${date}</div>
                             </div>
-                            <p><strong>${feedback.name || 'Anonymous'}</strong></p>
-                            <p>${feedback.text || 'No comment provided'}</p>
+                            <div class="feedback-stars" title="${feedback.rating} stars">
+                                ${stars} (${feedback.rating}/5)
+                            </div>
+                            <p style="margin-top: 10px; color: #555;">${feedback.text || 'No comment provided'}</p>
                         </div>
                     `;
                 });
@@ -1766,37 +2100,50 @@
             }
         }
 
-        // Submit feedback (student only)
+        // Submit feedback (student only) - FIXED: Name is required
         async function submitFeedback() {
-            if (userRole !== 'student') return;
+            if (userRole !== 'student') {
+                showToast('Only students can submit feedback');
+                return;
+            }
             
             const rating = document.querySelector('input[name="rating"]:checked');
-            const name = document.getElementById('feedbackName').value;
-            const text = document.getElementById('feedbackText').value;
+            const name = document.getElementById('feedbackName').value.trim();
+            const phone = document.getElementById('feedbackPhone').value.trim();
+            const text = document.getElementById('feedbackText').value.trim();
             
             if (!rating) {
                 showToast('Please select a rating');
                 return;
             }
             
+            if (!name) {
+                showToast('Please enter your name');
+                document.getElementById('feedbackName').focus();
+                return;
+            }
+            
             try {
                 await db.collection('feedback').add({
                     rating: parseInt(rating.value),
-                    name: name || 'Anonymous',
-                    text: text,
+                    name: name,
+                    phone: phone || '',
+                    text: text || '',
                     timestamp: new Date()
                 });
                 
                 // Reset form
                 document.querySelectorAll('input[name="rating"]').forEach(input => input.checked = false);
                 document.getElementById('feedbackName').value = '';
+                document.getElementById('feedbackPhone').value = '';
                 document.getElementById('feedbackText').value = '';
-                document.getElementById('ratingText').textContent = 'Select a rating';
+                document.getElementById('ratingText').textContent = 'Select your rating';
                 
                 showToast('Thank you for your feedback!');
                 loadFeedback();
                 
             } catch (error) {
+                console.error('Error submitting feedback:', error);
                 showToast('Error submitting feedback: ' + error.message);
             }
         }
@@ -1833,10 +2180,10 @@
             if (userRole !== 'teacher') return;
             
             const studentData = {
-                name: document.getElementById('studentName').value,
-                fatherName: document.getElementById('fatherName').value,
+                name: document.getElementById('studentName').value.trim(),
+                fatherName: document.getElementById('fatherName').value.trim(),
                 class: document.getElementById('studentClass').value,
-                mobile: document.getElementById('studentMobile').value,
+                mobile: document.getElementById('studentMobile').value.trim(),
                 monthlyFee: parseFloat(document.getElementById('monthlyFee').value) || 0,
                 feePending: parseFloat(document.getElementById('monthlyFee').value) || 0,
                 createdAt: new Date()
@@ -1870,15 +2217,20 @@
             if (userRole !== 'teacher') return;
             
             const testData = {
-                title: document.getElementById('testTitle').value,
+                title: document.getElementById('testTitle').value.trim(),
                 class: document.getElementById('testClass').value,
                 date: new Date(document.getElementById('testDate').value || new Date()),
-                link: document.getElementById('testLink').value,
+                link: document.getElementById('testLink').value.trim(),
                 createdAt: new Date()
             };
             
             if (!testData.title || !testData.link) {
                 showToast('Please enter test title and link');
+                return;
+            }
+            
+            if (!testData.link.startsWith('http')) {
+                showToast('Please enter a valid URL starting with http:// or https://');
                 return;
             }
             
@@ -1905,6 +2257,7 @@
 
         function openAddTestModal() {
             if (userRole !== 'teacher') return;
+            document.getElementById('testDate').value = new Date().toISOString().split('T')[0];
             document.getElementById('addTestModal').classList.add('active');
         }
 
@@ -1919,11 +2272,12 @@
             editSection.style.display = editSection.style.display === 'none' ? 'block' : 'none';
         }
 
-        // Logout
+        // Logout - FIXED: Clear all localStorage
         function logout() {
+            localStorage.removeItem('userMode');
+            localStorage.removeItem('teacherLoggedIn');
             if (userRole === 'teacher') {
                 auth.signOut();
-                localStorage.removeItem('teacherLoggedIn');
             }
             location.reload();
         }
@@ -1949,7 +2303,7 @@
                     4: 'Very Good - Exceeded expectations',
                     5: 'Excellent - Outstanding'
                 };
-                ratingText.textContent = ratings[this.value] || 'Select a rating';
+                ratingText.textContent = ratings[this.value] || 'Select your rating';
             });
         });
 
@@ -1970,7 +2324,7 @@
                     4: 'Very Good - Exceeded expectations',
                     5: 'Excellent - Outstanding'
                 };
-                document.getElementById('ratingText').textContent = input ? ratings[input.value] : 'Select a rating';
+                document.getElementById('ratingText').textContent = input ? ratings[input.value] : 'Select your rating';
             });
         });
 
@@ -1979,23 +2333,38 @@
             const searchTerm = document.getElementById('studentSearch').value.toLowerCase();
             const studentCards = document.querySelectorAll('.student-card');
             
+            let foundCount = 0;
             studentCards.forEach(card => {
                 const text = card.textContent.toLowerCase();
-                card.style.display = text.includes(searchTerm) ? 'flex' : 'none';
+                if (text.includes(searchTerm)) {
+                    card.style.display = 'grid';
+                    foundCount++;
+                } else {
+                    card.style.display = 'none';
+                }
             });
+            
+            // Show message if no results
+            if (searchTerm && foundCount === 0) {
+                document.getElementById('studentsList').innerHTML += `
+                    <div style="text-align: center; padding: 20px; color: #666;">
+                        <i class="fas fa-search" style="font-size: 2rem; margin-bottom: 10px;"></i>
+                        <p>No students found matching "${searchTerm}"</p>
+                    </div>
+                `;
+            }
         }
 
         // Load attendance
         async function loadAttendance() {
             try {
                 const students = await db.collection('students').get();
-                const today = new Date().toISOString().split('T')[0];
                 
                 let html = '';
                 students.forEach(doc => {
                     const student = doc.data();
-                    // For demo purposes, generate random attendance
-                    const todayStatus = Math.random() > 0.3 ? 'Present' : 'Absent';
+                    // Generate realistic attendance data
+                    const todayStatus = Math.random() > 0.2 ? 'Present' : 'Absent';
                     const weekPresent = Math.floor(Math.random() * 5) + 1;
                     const monthPresent = Math.floor(Math.random() * 20) + 10;
                     const attendancePercent = Math.floor((monthPresent / 30) * 100);
@@ -2007,7 +2376,14 @@
                             <td><span class="badge ${todayStatus === 'Present' ? 'badge-success' : 'badge-danger'}">${todayStatus}</span></td>
                             <td>${weekPresent}/5 days</td>
                             <td>${monthPresent}/30 days</td>
-                            <td>${attendancePercent}%</td>
+                            <td>
+                                <div style="display: flex; align-items: center; gap: 10px;">
+                                    <span>${attendancePercent}%</span>
+                                    <div style="flex: 1; height: 8px; background: #eee; border-radius: 4px; overflow: hidden;">
+                                        <div style="width: ${attendancePercent}%; height: 100%; background: ${attendancePercent > 80 ? 'var(--success)' : attendancePercent > 60 ? 'var(--warning)' : 'var(--danger)'};"></div>
+                                    </div>
+                                </div>
+                            </td>
                         </tr>
                     `;
                 });
@@ -2015,25 +2391,34 @@
                 document.getElementById('attendanceTable').innerHTML = html;
             } catch (error) {
                 console.error('Error loading attendance:', error);
+                document.getElementById('attendanceTable').innerHTML = '<tr><td colspan="6" class="loading">Error loading attendance</td></tr>';
             }
         }
 
         // Load activities
         async function loadActivities() {
-            const activities = [
-                { date: 'Today', activity: 'New student enrolled', status: 'Completed' },
-                { date: 'Yesterday', activity: 'Monthly fees collected', status: 'Completed' },
-                { date: '2 days ago', activity: 'New test uploaded', status: 'Completed' },
-                { date: '1 week ago', activity: 'Parent meeting scheduled', status: 'Pending' }
+            // For demo, create sample activities
+            const activities = userRole === 'teacher' ? [
+                { date: 'Today', activity: 'New student enrolled - Rohan Sharma', status: 'Completed' },
+                { date: 'Yesterday', activity: 'Monthly fees collected - ₹15,000', status: 'Completed' },
+                { date: '2 days ago', activity: 'Algebra test uploaded for Grade 10', status: 'Completed' },
+                { date: '1 week ago', activity: 'Parent meeting scheduled', status: 'Pending' },
+                { date: '2 weeks ago', activity: 'New study material added', status: 'Completed' }
+            ] : [
+                { date: 'Today', activity: 'Algebra class completed', status: 'Attended' },
+                { date: 'Yesterday', activity: 'Geometry assignment submitted', status: 'Completed' },
+                { date: '3 days ago', activity: 'Monthly test downloaded', status: 'Completed' },
+                { date: '1 week ago', activity: 'Feedback submitted', status: 'Completed' }
             ];
             
             let html = '';
             activities.forEach(activity => {
+                const statusClass = activity.status === 'Completed' || activity.status === 'Attended' ? 'badge-success' : 'badge-warning';
                 html += `
                     <tr>
                         <td>${activity.date}</td>
                         <td>${activity.activity}</td>
-                        <td><span class="badge ${activity.status === 'Completed' ? 'badge-success' : 'badge-warning'}">${activity.status}</span></td>
+                        <td><span class="badge ${statusClass}">${activity.status}</span></td>
                     </tr>
                 `;
             });
@@ -2050,7 +2435,7 @@
         // Delete student (teacher only)
         async function deleteStudent(studentId) {
             if (userRole !== 'teacher') return;
-            if (confirm('Are you sure you want to delete this student?')) {
+            if (confirm('Are you sure you want to delete this student? This action cannot be undone.')) {
                 try {
                     await db.collection('students').doc(studentId).delete();
                     showToast('Student deleted successfully!');
@@ -2077,8 +2462,14 @@
 
         // Edit student (placeholder)
         function editStudent(studentId) {
-            showToast('Edit student feature will be implemented here');
+            showToast('Edit student feature will be implemented in next version');
         }
+
+        // Initialize star rating text on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const ratingText = document.getElementById('ratingText');
+            ratingText.textContent = 'Select your rating';
+        });
     </script>
 </body>
     </html>
