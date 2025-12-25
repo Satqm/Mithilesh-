@@ -1,0 +1,10 @@
+{
+  "name": "Math Classes Manager",
+  "short_name": "CoachingApp",
+  "description": "Coaching management app by Mr. Mithilesh",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#3a86ff",
+  "theme_color": "#3a86ff",
+  "icons": []
+}
