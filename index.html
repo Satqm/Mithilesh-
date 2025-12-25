@@ -1,0 +1,2006 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Math Classes - Mr. Mithilesh</title>
+    <link rel="manifest" href="manifest.json">
+    <!-- Firebase & UI Libraries -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #3a86ff;
+            --secondary: #8338ec;
+            --success: #06d6a0;
+            --warning: #ffd166;
+            --danger: #ef476f;
+            --light: #f8f9fa;
+            --dark: #212529;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: #f5f7fb;
+            color: var(--dark);
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 100%;
+        }
+
+        /* Login Screen */
+        .login-container {
+            max-width: 400px;
+            margin: 50px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .logo-icon {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+
+        .logo h1 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.8rem;
+            color: var(--primary);
+        }
+
+        .logo p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--dark);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: 0.3s;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary);
+            outline: none;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 50px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #2a75ff;
+            transform: translateY(-2px);
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            color: white;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: white;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        /* Navigation */
+        .nav-tabs {
+            display: flex;
+            background: white;
+            border-radius: 15px;
+            overflow-x: auto;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .nav-tab {
+            flex: 1;
+            min-width: 120px;
+            padding: 15px 10px;
+            text-align: center;
+            cursor: pointer;
+            border-bottom: 4px solid transparent;
+            transition: 0.3s;
+            font-weight: 500;
+        }
+
+        .nav-tab.active {
+            border-bottom: 4px solid var(--primary);
+            color: var(--primary);
+            background: #f0f5ff;
+        }
+
+        .nav-tab i {
+            margin-right: 5px;
+        }
+
+        /* Content Sections */
+        .content-section {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Stats Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .stat-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            background: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .stat-info h3 {
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+        }
+
+        .stat-info p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        /* Tables */
+        .table-container {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            overflow-x: auto;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .table th {
+            background: #f8f9fa;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            border-bottom: 2px solid #eee;
+        }
+
+        .table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .table tr:hover {
+            background: #f9f9f9;
+        }
+
+        /* Badges */
+        .badge {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .badge-success {
+            background: rgba(6, 214, 160, 0.2);
+            color: var(--success);
+        }
+
+        .badge-warning {
+            background: rgba(255, 209, 102, 0.3);
+            color: #e6a700;
+        }
+
+        .badge-danger {
+            background: rgba(239, 71, 111, 0.2);
+            color: var(--danger);
+        }
+
+        /* Action Buttons */
+        .action-btn {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            margin: 2px;
+        }
+
+        /* Student Card */
+        .student-card {
+            background: white;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .student-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 20px;
+            display: none;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background: white;
+            border-radius: 15px;
+            width: 100%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            padding: 20px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-body {
+            padding: 20px;
+        }
+
+        /* Loading */
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+
+        .loading i {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            color: var(--primary);
+        }
+
+        /* Mobile Optimizations */
+        @media (max-width: 768px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .nav-tab {
+                min-width: 100px;
+                padding: 12px 8px;
+                font-size: 0.9rem;
+            }
+            
+            .table {
+                min-width: 600px;
+            }
+        }
+
+        /* PWA Install Prompt */
+        .install-prompt {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            right: 20px;
+            background: white;
+            border-radius: 12px;
+            padding: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 1001;
+            display: none;
+        }
+
+        .install-prompt.show {
+            display: flex;
+        }
+
+        .install-prompt button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Screen -->
+    <div id="loginScreen" class="login-container">
+        <div class="logo">
+            <div class="logo-icon">
+                <i class="fas fa-square-root-alt"></i>
+            </div>
+            <h1>Math Classes</h1>
+            <p>By Mr. Mithilesh - Coaching Management</p>
+        </div>
+        
+        <div id="loginForm">
+            <div class="form-group">
+                <label>Email Address</label>
+                <input type="email" id="loginEmail" class="form-control" placeholder="teacher@example.com">
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" id="loginPassword" class="form-control" placeholder="••••••••">
+            </div>
+            <button class="btn btn-primary" onclick="login()">
+                <i class="fas fa-sign-in-alt"></i> Login
+            </button>
+        </div>
+
+        <div id="registerForm" style="display: none;">
+            <div class="form-group">
+                <label>Teacher Name</label>
+                <input type="text" id="registerName" class="form-control" placeholder="Mr. Mithilesh">
+            </div>
+            <div class="form-group">
+                <label>Email Address</label>
+                <input type="email" id="registerEmail" class="form-control" placeholder="teacher@example.com">
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" id="registerPassword" class="form-control" placeholder="Min. 6 characters">
+            </div>
+            <button class="btn btn-success" onclick="registerTeacher()">
+                <i class="fas fa-user-plus"></i> Create Teacher Account
+            </button>
+            <button class="btn btn-outline" onclick="showLogin()" style="margin-top: 10px;">
+                Back to Login
+            </button>
+        </div>
+
+        <div style="margin-top: 20px; text-align: center;">
+            <p style="color: #666; font-size: 0.9rem;">
+                First time? <a href="javascript:void(0)" onclick="showRegister()" style="color: var(--primary);">Create Teacher Account</a>
+            </p>
+            <p style="color: #666; font-size: 0.9rem; margin-top: 10px;">
+                <small>Students: Ask teacher for login credentials</small>
+            </p>
+        </div>
+    </div>
+
+    <!-- Main App (hidden until login) -->
+    <div id="app" style="display: none;">
+        <!-- Header -->
+        <header>
+            <div class="header-content">
+                <div>
+                    <h2 id="welcomeMessage">Welcome!</h2>
+                    <p id="userRole">Loading...</p>
+                </div>
+                <div class="user-info">
+                    <div class="user-avatar" id="userAvatar">M</div>
+                    <button class="btn btn-outline" onclick="logout()" style="padding: 8px 15px;">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Navigation -->
+        <div class="nav-tabs">
+            <div class="nav-tab active" onclick="showSection('dashboard')">
+                <i class="fas fa-tachometer-alt"></i> Dashboard
+            </div>
+            <div class="nav-tab" onclick="showSection('students')">
+                <i class="fas fa-user-graduate"></i> Students
+            </div>
+            <div class="nav-tab" onclick="showSection('attendance')">
+                <i class="fas fa-calendar-check"></i> Attendance
+            </div>
+            <div class="nav-tab" onclick="showSection('fees')">
+                <i class="fas fa-rupee-sign"></i> Fees
+            </div>
+            <div class="nav-tab" onclick="showSection('tests')">
+                <i class="fas fa-file-pdf"></i> Tests
+            </div>
+            <div class="nav-tab" onclick="showSection('about')">
+                <i class="fas fa-user-tie"></i> About
+            </div>
+        </div>
+
+        <!-- Dashboard Section -->
+        <section id="dashboard" class="content-section active">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: var(--primary);">
+                        <i class="fas fa-user-graduate"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="totalStudents">0</h3>
+                        <p>Total Students</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: var(--success);">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="attendancePercent">0%</h3>
+                        <p>Today's Attendance</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: var(--secondary);">
+                        <i class="fas fa-rupee-sign"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="feesCollected">₹0</h3>
+                        <p>This Month's Fees</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: var(--warning);">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="pendingFees">₹0</h3>
+                        <p>Pending Fees</p>
+                    </div>
+                </div>
+            </div>
+
+            <h3 style="margin: 20px 0 10px;">Recent Activities</h3>
+            <div class="table-container">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Activity</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="activitiesList">
+                        <tr><td colspan="3" class="loading">Loading activities...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Students Section -->
+        <section id="students" class="content-section">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h3>Student Management</h3>
+                <button class="btn btn-primary" onclick="openAddStudentModal()" id="addStudentBtn">
+                    <i class="fas fa-plus"></i> Add Student
+                </button>
+            </div>
+
+            <div class="form-group">
+                <input type="text" id="studentSearch" class="form-control" placeholder="Search by name, father name, or class..." onkeyup="searchStudents()">
+            </div>
+
+            <div id="studentsList">
+                <div class="loading">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <p>Loading students...</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Attendance Section -->
+        <section id="attendance" class="content-section">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h3>Attendance Tracking</h3>
+                <div>
+                    <select id="attendanceMonth" class="form-control" style="width: auto; display: inline-block;" onchange="loadAttendance()">
+                        <option value="current">Current Month</option>
+                        <option value="prev1">Last Month</option>
+                        <option value="prev2">2 Months Ago</option>
+                    </select>
+                    <button class="btn btn-primary" onclick="markAttendanceToday()" style="margin-left: 10px;">
+                        <i class="fas fa-check"></i> Mark Today
+                    </button>
+                </div>
+            </div>
+
+            <div class="table-container">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Student</th>
+                            <th>Class</th>
+                            <th>Today</th>
+                            <th>This Week</th>
+                            <th>This Month</th>
+                            <th>%</th>
+                        </tr>
+                    </thead>
+                    <tbody id="attendanceTable">
+                        <tr><td colspan="6" class="loading">Loading attendance...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Fees Section -->
+        <section id="fees" class="content-section">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h3>Fees Collection</h3>
+                <button class="btn btn-primary" onclick="openCollectFeesModal()">
+                    <i class="fas fa-rupee-sign"></i> Collect Fees
+                </button>
+            </div>
+
+            <div class="table-container">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Student</th>
+                            <th>Class</th>
+                            <th>Monthly Fee</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="feesTable">
+                        <tr><td colspan="5" class="loading">Loading fees data...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Tests Section -->
+        <section id="tests" class="content-section">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h3>Monthly Tests</h3>
+                <button class="btn btn-primary" onclick="openAddTestModal()" id="addTestBtn">
+                    <i class="fas fa-plus"></i> Add Test
+                </button>
+            </div>
+
+            <div id="testsList">
+                <div class="loading">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <p>Loading tests...</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="content-section">
+            <div class="table-container" style="padding: 20px;">
+                <div style="text-align: center; margin-bottom: 30px;">
+                    <div class="user-avatar" style="width: 100px; height: 100px; margin: 0 auto 20px; font-size: 2.5rem;">
+                        M
+                    </div>
+                    <h2 id="teacherName">Mr. Mithilesh</h2>
+                    <p id="teacherEmail" style="color: #666;">teacher@example.com</p>
+                </div>
+
+                <div style="margin-bottom: 20px;">
+                    <h4 style="margin-bottom: 10px;">About Teacher</h4>
+                    <p id="teacherBio" style="color: #666; line-height: 1.6;">
+                        Experienced mathematics teacher with 10+ years of teaching expertise. Specialized in CBSE curriculum for grades 9-12.
+                    </p>
+                </div>
+
+                <div style="margin-top: 30px;">
+                    <h4 style="margin-bottom: 15px;">Teaching Stats</h4>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-info">
+                                <h3 id="teacherTotalStudents">0</h3>
+                                <p>Students Taught</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-info">
+                                <h3 id="teacherAttendance">0%</h3>
+                                <p>Avg. Attendance</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-info">
+                                <h3 id="teacherFees">₹0</h3>
+                                <p>Total Fees Collected</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-info">
+                                <h3 id="teacherTests">0</h3>
+                                <p>Tests Conducted</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="editAboutSection" style="display: none; margin-top: 30px;">
+                    <h4>Edit Profile</h4>
+                    <div class="form-group">
+                        <label>Teacher Name</label>
+                        <input type="text" id="editTeacherName" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>Bio/Description</label>
+                        <textarea id="editTeacherBio" class="form-control" rows="4"></textarea>
+                    </div>
+                    <button class="btn btn-primary" onclick="updateTeacherProfile()">
+                        <i class="fas fa-save"></i> Save Changes
+                    </button>
+                </div>
+
+                <div style="margin-top: 30px; text-align: center;">
+                    <button class="btn btn-outline" onclick="toggleEditAbout()" id="editAboutBtn">
+                        <i class="fas fa-edit"></i> Edit Profile
+                    </button>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Modals -->
+    <div class="modal-overlay" id="addStudentModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Add New Student</h3>
+                <button onclick="closeModal('addStudentModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Student Name</label>
+                    <input type="text" id="studentName" class="form-control" placeholder="Rohan Sharma">
+                </div>
+                <div class="form-group">
+                    <label>Father's Name</label>
+                    <input type="text" id="fatherName" class="form-control" placeholder="Mr. Sharma">
+                </div>
+                <div class="form-group">
+                    <label>Class</label>
+                    <select id="studentClass" class="form-control">
+                        <option value="9">Grade 9</option>
+                        <option value="10">Grade 10</option>
+                        <option value="11">Grade 11</option>
+                        <option value="12">Grade 12</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Mobile Number</label>
+                    <input type="tel" id="studentMobile" class="form-control" placeholder="9876543210">
+                </div>
+                <div class="form-group">
+                    <label>Monthly Fee (₹)</label>
+                    <input type="number" id="monthlyFee" class="form-control" placeholder="3500">
+                </div>
+                <button class="btn btn-primary" onclick="addStudent()">
+                    <i class="fas fa-save"></i> Save Student
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="attendanceModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Mark Attendance - Today</h3>
+                <button onclick="closeModal('attendanceModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="attendanceList">
+                    <!-- Will be populated by JavaScript -->
+                </div>
+                <button class="btn btn-success" onclick="saveAttendance()" style="margin-top: 20px;">
+                    <i class="fas fa-save"></i> Save Attendance
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="collectFeesModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Collect Fees</h3>
+                <button onclick="closeModal('collectFeesModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Select Student</label>
+                    <select id="feesStudent" class="form-control">
+                        <!-- Will be populated -->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Amount (₹)</label>
+                    <input type="number" id="feesAmount" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label>For Month</label>
+                    <select id="feesMonth" class="form-control">
+                        <option value="current">Current Month</option>
+                        <option value="prev1">Previous Month</option>
+                    </select>
+                </div>
+                <button class="btn btn-primary" onclick="collectFees()">
+                    <i class="fas fa-rupee-sign"></i> Collect Fees
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="addTestModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Add Monthly Test</h3>
+                <button onclick="closeModal('addTestModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Test Title</label>
+                    <input type="text" id="testTitle" class="form-control" placeholder="Algebra Monthly Test">
+                </div>
+                <div class="form-group">
+                    <label>For Class</label>
+                    <select id="testClass" class="form-control">
+                        <option value="all">All Classes</option>
+                        <option value="9">Grade 9</option>
+                        <option value="10">Grade 10</option>
+                        <option value="11">Grade 11</option>
+                        <option value="12">Grade 12</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>PDF Link (Google Drive or similar)</label>
+                    <input type="url" id="testLink" class="form-control" placeholder="https://drive.google.com/file/...">
+                </div>
+                <button class="btn btn-primary" onclick="addTest()">
+                    <i class="fas fa-save"></i> Save Test
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- PWA Install Prompt -->
+    <div class="install-prompt" id="installPrompt">
+        <div>
+            <strong>Install Coaching Manager App</strong>
+            <p style="font-size: 0.9rem; margin-top: 5px;">Install for easy access on your home screen</p>
+        </div>
+        <button onclick="installApp()">Install</button>
+    </div>
+
+    <script>
+        // Firebase Configuration - USING YOUR CONFIG
+        const firebaseConfig = {
+            apiKey: "AIzaSyDGYTU5iVTB7nY5poEH1FIeSyDvc9Io9sw",
+            authDomain: "math-classes-by-mithilesh.firebaseapp.com",
+            projectId: "math-classes-by-mithilesh",
+            storageBucket: "math-classes-by-mithilesh.firebasestorage.app",
+            messagingSenderId: "1095462608716",
+            appId: "1:1095462608716:web:45667272a197a63fed79e9"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+
+        // Global variables
+        let currentUser = null;
+        let userRole = null;
+        let deferredPrompt = null;
+
+        // DOM Elements
+        const loginScreen = document.getElementById('loginScreen');
+        const app = document.getElementById('app');
+        const welcomeMessage = document.getElementById('welcomeMessage');
+        const userRoleElement = document.getElementById('userRole');
+        const userAvatar = document.getElementById('userAvatar');
+
+        // Initialize app
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check if user is logged in
+            auth.onAuthStateChanged(async (user) => {
+                if (user) {
+                    currentUser = user;
+                    
+                    // Get user role from Firestore
+                    try {
+                        const userDoc = await db.collection('users').doc(user.uid).get();
+                        if (userDoc.exists) {
+                            userRole = userDoc.data().role;
+                            
+                            // Update UI
+                            welcomeMessage.textContent = `Welcome, ${userDoc.data().name || user.email}`;
+                            userRoleElement.textContent = userRole === 'teacher' ? 'Teacher Account' : 'Student Account';
+                            userAvatar.textContent = (userDoc.data().name || 'U').charAt(0).toUpperCase();
+                            
+                            // Show app
+                            loginScreen.style.display = 'none';
+                            app.style.display = 'block';
+                            
+                            // Load data based on role
+                            if (userRole === 'teacher') {
+                                loadTeacherData();
+                            } else {
+                                loadStudentData();
+                            }
+                        }
+                    } catch (error) {
+                        console.error('Error loading user data:', error);
+                        // If user document doesn't exist, create it (for backward compatibility)
+                        if (user.email.includes('teacher')) {
+                            await setupTeacherAccount(user);
+                        }
+                    }
+                } else {
+                    // Show login screen
+                    loginScreen.style.display = 'block';
+                    app.style.display = 'none';
+                }
+            });
+
+            // PWA Install Prompt
+            window.addEventListener('beforeinstallprompt', (e) => {
+                e.preventDefault();
+                deferredPrompt = e;
+                
+                // Show install prompt after 5 seconds
+                setTimeout(() => {
+                    if (deferredPrompt) {
+                        document.getElementById('installPrompt').classList.add('show');
+                    }
+                }, 5000);
+            });
+        });
+
+        // Setup teacher account (for existing users)
+        async function setupTeacherAccount(user) {
+            try {
+                await db.collection('users').doc(user.uid).set({
+                    name: user.email.split('@')[0],
+                    email: user.email,
+                    role: 'teacher',
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+                
+                userRole = 'teacher';
+                welcomeMessage.textContent = `Welcome, Teacher`;
+                userRoleElement.textContent = 'Teacher Account';
+                userAvatar.textContent = 'T';
+                
+                loginScreen.style.display = 'none';
+                app.style.display = 'block';
+                loadTeacherData();
+            } catch (error) {
+                console.error('Error setting up teacher account:', error);
+            }
+        }
+
+        // Login function
+        async function login() {
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            if (!email || !password) {
+                alert('Please enter email and password');
+                return;
+            }
+            
+            try {
+                await auth.signInWithEmailAndPassword(email, password);
+            } catch (error) {
+                alert('Login failed: ' + error.message);
+            }
+        }
+
+        // Register teacher function
+        async function registerTeacher() {
+            const name = document.getElementById('registerName').value;
+            const email = document.getElementById('registerEmail').value;
+            const password = document.getElementById('registerPassword').value;
+            
+            if (!name || !email || !password) {
+                alert('Please fill all fields');
+                return;
+            }
+            
+            if (password.length < 6) {
+                alert('Password must be at least 6 characters');
+                return;
+            }
+            
+            try {
+                // Create user
+                const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+                
+                // Create user document
+                await db.collection('users').doc(userCredential.user.uid).set({
+                    name: name,
+                    email: email,
+                    role: 'teacher',
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+                
+                // Create teacher profile
+                await db.collection('about').doc('teacher').set({
+                    name: name,
+                    email: email,
+                    bio: 'Experienced mathematics teacher with 10+ years of teaching expertise.',
+                    createdAt: new Date()
+                });
+                
+                alert('Teacher account created successfully! You are now logged in.');
+            } catch (error) {
+                alert('Registration failed: ' + error.message);
+            }
+        }
+
+        // Show register form
+        function showRegister() {
+            document.getElementById('loginForm').style.display = 'none';
+            document.getElementById('registerForm').style.display = 'block';
+        }
+
+        // Show login form
+        function showLogin() {
+            document.getElementById('registerForm').style.display = 'none';
+            document.getElementById('loginForm').style.display = 'block';
+        }
+
+        // Logout function
+        function logout() {
+            auth.signOut();
+        }
+
+        // Show section
+        function showSection(sectionId) {
+            // Update active tab
+            document.querySelectorAll('.nav-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Show section
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            document.getElementById(sectionId).classList.add('active');
+        }
+
+        // Load teacher data
+        async function loadTeacherData() {
+            try {
+                // Load dashboard stats
+                const students = await db.collection('students').get();
+                document.getElementById('totalStudents').textContent = students.size;
+                document.getElementById('teacherTotalStudents').textContent = students.size;
+                
+                // Calculate attendance for today
+                const today = new Date().toISOString().split('T')[0];
+                const attendance = await db.collection('attendance')
+                    .where('date', '==', today)
+                    .get();
+                
+                const presentCount = attendance.docs.filter(doc => doc.data().status === 'present').length;
+                const attendancePercent = students.size > 0 ? Math.round((presentCount / students.size) * 100) : 0;
+                document.getElementById('attendancePercent').textContent = attendancePercent + '%';
+                document.getElementById('teacherAttendance').textContent = attendancePercent + '%';
+                
+                // Calculate fees for current month
+                const currentMonth = new Date().toISOString().slice(0, 7); // YYYY-MM
+                const fees = await db.collection('fees')
+                    .where('month', '==', currentMonth)
+                    .where('status', '==', 'paid')
+                    .get();
+                
+                let totalFees = 0;
+                fees.forEach(doc => {
+                    totalFees += doc.data().amount || 0;
+                });
+                document.getElementById('feesCollected').textContent = '₹' + totalFees;
+                document.getElementById('teacherFees').textContent = '₹' + totalFees;
+                
+                // Calculate pending fees
+                let pendingFees = 0;
+                students.forEach(doc => {
+                    const data = doc.data();
+                    if (data.feeStatus === 'unpaid') {
+                        pendingFees += data.monthlyFee || 0;
+                    }
+                });
+                document.getElementById('pendingFees').textContent = '₹' + pendingFees;
+                
+                // Count tests
+                const tests = await db.collection('tests').get();
+                document.getElementById('teacherTests').textContent = tests.size;
+                
+                // Load activities
+                loadActivities();
+                
+                // Load students
+                loadStudents();
+                
+                // Load attendance table
+                loadAttendance();
+                
+                // Load fees table
+                loadFeesTable();
+                
+                // Load tests
+                loadTests();
+                
+                // Load teacher profile
+                loadTeacherProfile();
+            } catch (error) {
+                console.error('Error loading teacher data:', error);
+            }
+        }
+
+        // Load student data
+        async function loadStudentData() {
+            try {
+                // Hide teacher-only buttons
+                document.getElementById('addStudentBtn').style.display = 'none';
+                document.getElementById('addTestBtn').style.display = 'none';
+                document.getElementById('editAboutBtn').style.display = 'none';
+                
+                // Load student's own data
+                const studentQuery = await db.collection('students')
+                    .where('userId', '==', currentUser.uid)
+                    .limit(1)
+                    .get();
+                    
+                if (!studentQuery.empty) {
+                    const studentDoc = studentQuery.docs[0];
+                    const studentData = studentDoc.data();
+                    
+                    // Show student info
+                    document.getElementById('totalStudents').textContent = '1';
+                    document.getElementById('welcomeMessage').textContent = `Welcome, ${studentData.name}`;
+                    userAvatar.textContent = studentData.name.charAt(0).toUpperCase();
+                    
+                    // Load student-specific data
+                    loadStudentAttendance(studentDoc.id);
+                    loadStudentFees(studentDoc.id);
+                    loadStudentTests();
+                }
+            } catch (error) {
+                console.error('Error loading student data:', error);
+            }
+        }
+
+        // Load students list
+        async function loadStudents() {
+            try {
+                const studentsList = document.getElementById('studentsList');
+                const students = await db.collection('students').orderBy('name').get();
+                
+                studentsList.innerHTML = '';
+                
+                if (students.empty) {
+                    studentsList.innerHTML = '<div class="loading"><p>No students found. Add your first student!</p></div>';
+                    return;
+                }
+                
+                students.forEach(doc => {
+                    const data = doc.data();
+                    const studentCard = document.createElement('div');
+                    studentCard.className = 'student-card';
+                    studentCard.innerHTML = `
+                        <div class="student-avatar">
+                            ${data.name.charAt(0).toUpperCase()}
+                        </div>
+                        <div style="flex: 1;">
+                            <h4 style="margin-bottom: 5px;">${data.name}</h4>
+                            <p style="color: #666; font-size: 0.9rem;">
+                                Grade ${data.class} • ${data.fatherName}<br>
+                                Mobile: ${data.mobile}
+                            </p>
+                            <div style="margin-top: 8px;">
+                                <span class="badge ${data.feeStatus === 'paid' ? 'badge-success' : 'badge-danger'}">
+                                    ${data.feeStatus === 'paid' ? 'Fees Paid' : 'Fees Due'}
+                                </span>
+                                <span style="margin-left: 10px; font-weight: 500;">₹${data.monthlyFee || 0}/month</span>
+                            </div>
+                        </div>
+                        ${userRole === 'teacher' ? `
+                        <div>
+                            <button class="action-btn" style="background: var(--warning); color: white;" onclick="editStudent('${doc.id}')">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="action-btn" style="background: var(--danger); color: white;" onclick="deleteStudent('${doc.id}', '${data.name}')">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                        ` : ''}
+                    `;
+                    studentsList.appendChild(studentCard);
+                });
+            } catch (error) {
+                console.error('Error loading students:', error);
+                document.getElementById('studentsList').innerHTML = '<div class="loading"><p>Error loading students</p></div>';
+            }
+        }
+
+        // Add student
+        async function addStudent() {
+            const name = document.getElementById('studentName').value;
+            const fatherName = document.getElementById('fatherName').value;
+            const studentClass = document.getElementById('studentClass').value;
+            const mobile = document.getElementById('studentMobile').value;
+            const monthlyFee = parseInt(document.getElementById('monthlyFee').value) || 3500;
+            
+            if (!name || !fatherName || !studentClass || !mobile) {
+                alert('Please fill all fields');
+                return;
+            }
+            
+            try {
+                await db.collection('students').add({
+                    name: name,
+                    fatherName: fatherName,
+                    class: studentClass,
+                    mobile: mobile,
+                    monthlyFee: monthlyFee,
+                    feeStatus: 'unpaid',
+                    createdAt: new Date()
+                });
+                
+                // Add activity
+                await db.collection('activities').add({
+                    type: 'student_added',
+                    description: `Added student: ${name}`,
+                    timestamp: new Date()
+                });
+                
+                closeModal('addStudentModal');
+                loadStudents();
+                loadTeacherData(); // Refresh dashboard
+                
+                alert('Student added successfully!');
+            } catch (error) {
+                alert('Error adding student: ' + error.message);
+            }
+        }
+
+        // Load attendance table
+        async function loadAttendance() {
+            try {
+                const attendanceTable = document.getElementById('attendanceTable');
+                attendanceTable.innerHTML = '<tr><td colspan="6" class="loading">Loading...</td></tr>';
+                
+                const students = await db.collection('students').orderBy('name').get();
+                const today = new Date().toISOString().split('T')[0];
+                
+                let html = '';
+                
+                for (const doc of students.docs) {
+                    const data = doc.data();
+                    
+                    // Get today's attendance
+                    const todayAttendance = await db.collection('attendance')
+                        .where('studentId', '==', doc.id)
+                        .where('date', '==', today)
+                        .limit(1)
+                        .get();
+                    
+                    let todayStatus = 'Not Marked';
+                    if (!todayAttendance.empty) {
+                        todayStatus = todayAttendance.docs[0].data().status;
+                    }
+                    
+                    // Get this month's attendance (last 30 days)
+                    const monthStart = new Date();
+                    monthStart.setDate(monthStart.getDate() - 30);
+                    const monthAttendance = await db.collection('attendance')
+                        .where('studentId', '==', doc.id)
+                        .where('date', '>=', monthStart.toISOString().split('T')[0])
+                        .get();
+                    
+                    const presentThisMonth = monthAttendance.docs.filter(d => d.data().status === 'present').length;
+                    const monthDays = Math.min(30, monthAttendance.size);
+                    const monthPercent = monthDays > 0 ? Math.round((presentThisMonth / monthDays) * 100) : 0;
+                    
+                    html += `
+                        <tr>
+                            <td>${data.name}</td>
+                            <td>Grade ${data.class}</td>
+                            <td>
+                                <span class="badge ${todayStatus === 'present' ? 'badge-success' : todayStatus === 'absent' ? 'badge-danger' : 'badge-warning'}">
+                                    ${todayStatus}
+                                </span>
+                            </td>
+                            <td>${presentThisMonth}/30</td>
+                            <td>${monthPercent}%</td>
+                            <td>
+                                ${userRole === 'teacher' ? `
+                                <button class="action-btn" style="background: var(--primary); color: white;" onclick="markSingleAttendance('${doc.id}', '${data.name}')">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                ` : ''}
+                            </td>
+                        </tr>
+                    `;
+                }
+                
+                attendanceTable.innerHTML = html || '<tr><td colspan="6">No students found</td></tr>';
+            } catch (error) {
+                console.error('Error loading attendance:', error);
+                document.getElementById('attendanceTable').innerHTML = '<tr><td colspan="6">Error loading attendance</td></tr>';
+            }
+        }
+
+        // Mark attendance for today
+        async function markAttendanceToday() {
+            try {
+                const students = await db.collection('students').orderBy('name').get();
+                const attendanceList = document.getElementById('attendanceList');
+                const today = new Date().toISOString().split('T')[0];
+                
+                attendanceList.innerHTML = '';
+                
+                if (students.empty) {
+                    attendanceList.innerHTML = '<p>No students found. Add students first.</p>';
+                    return;
+                }
+                
+                for (const doc of students.docs) {
+                    const data = doc.data();
+                    
+                    // Check existing attendance
+                    const existing = await db.collection('attendance')
+                        .where('studentId', '==', doc.id)
+                        .where('date', '==', today)
+                        .limit(1)
+                        .get();
+                    
+                    const isPresent = !existing.empty && existing.docs[0].data().status === 'present';
+                    
+                    attendanceList.innerHTML += `
+                        <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px; border-bottom: 1px solid #eee;">
+                            <div>
+                                <strong>${data.name}</strong>
+                                <div style="font-size: 0.9rem; color: #666;">Grade ${data.class}</div>
+                            </div>
+                            <div>
+                                <label style="margin-right: 10px;">
+                                    <input type="radio" name="attendance_${doc.id}" value="present" ${isPresent ? 'checked' : ''}>
+                                    Present
+                                </label>
+                                <label>
+                                    <input type="radio" name="attendance_${doc.id}" value="absent" ${!isPresent && !existing.empty ? 'checked' : ''}>
+                                    Absent
+                                </label>
+                            </div>
+                        </div>
+                    `;
+                }
+                
+                openModal('attendanceModal');
+            } catch (error) {
+                alert('Error loading students: ' + error.message);
+            }
+        }
+
+        // Save attendance
+        async function saveAttendance() {
+            try {
+                const today = new Date().toISOString().split('T')[0];
+                const students = await db.collection('students').get();
+                
+                for (const doc of students.docs) {
+                    const status = document.querySelector(`input[name="attendance_${doc.id}"]:checked`)?.value;
+                    
+                    if (status) {
+                        // Check if attendance already exists
+                        const existing = await db.collection('attendance')
+                            .where('studentId', '==', doc.id)
+                            .where('date', '==', today)
+                            .limit(1)
+                            .get();
+                        
+                        if (existing.empty) {
+                            await db.collection('attendance').add({
+                                studentId: doc.id,
+                                studentName: doc.data().name,
+                                date: today,
+                                status: status,
+                                timestamp: new Date()
+                            });
+                        } else {
+                            await db.collection('attendance').doc(existing.docs[0].id).update({
+                                status: status
+                            });
+                        }
+                    }
+                }
+                
+                closeModal('attendanceModal');
+                loadAttendance();
+                loadTeacherData();
+                
+                alert('Attendance saved successfully!');
+            } catch (error) {
+                alert('Error saving attendance: ' + error.message);
+            }
+        }
+
+        // Load fees table
+        async function loadFeesTable() {
+            try {
+                const feesTable = document.getElementById('feesTable');
+                const students = await db.collection('students').orderBy('name').get();
+                
+                let html = '';
+                
+                students.forEach(doc => {
+                    const data = doc.data();
+                    html += `
+                        <tr>
+                            <td>${data.name}</td>
+                            <td>Grade ${data.class}</td>
+                            <td>₹${data.monthlyFee || 0}</td>
+                            <td>
+                                <span class="badge ${data.feeStatus === 'paid' ? 'badge-success' : 'badge-danger'}">
+                                    ${data.feeStatus === 'paid' ? 'Paid' : 'Unpaid'}
+                                </span>
+                            </td>
+                            <td>
+                                ${userRole === 'teacher' && data.feeStatus === 'unpaid' ? `
+                                <button class="action-btn" style="background: var(--success); color: white;" onclick="markFeesPaid('${doc.id}')">
+                                    Mark Paid
+                                </button>
+                                ` : ''}
+                            </td>
+                        </tr>
+                    `;
+                });
+                
+                feesTable.innerHTML = html || '<tr><td colspan="5">No students found</td></tr>';
+            } catch (error) {
+                console.error('Error loading fees:', error);
+                document.getElementById('feesTable').innerHTML = '<tr><td colspan="5">Error loading fees</td></tr>';
+            }
+        }
+
+        // Mark fees as paid
+        async function markFeesPaid(studentId) {
+            try {
+                const studentDoc = await db.collection('students').doc(studentId).get();
+                const studentData = studentDoc.data();
+                
+                await db.collection('students').doc(studentId).update({
+                    feeStatus: 'paid'
+                });
+                
+                // Record fee payment
+                await db.collection('fees').add({
+                    studentId: studentId,
+                    studentName: studentData.name,
+                    amount: studentData.monthlyFee || 0,
+                    month: new Date().toISOString().slice(0, 7),
+                    status: 'paid',
+                    paidDate: new Date()
+                });
+                
+                // Add activity
+                await db.collection('activities').add({
+                    type: 'fees_paid',
+                    description: `Collected fees from ${studentData.name}: ₹${studentData.monthlyFee || 0}`,
+                    timestamp: new Date()
+                });
+                
+                loadFeesTable();
+                loadTeacherData();
+                
+                alert('Fees marked as paid!');
+            } catch (error) {
+                alert('Error marking fees as paid: ' + error.message);
+            }
+        }
+
+        // Load tests
+        async function loadTests() {
+            try {
+                const testsList = document.getElementById('testsList');
+                const tests = await db.collection('tests').orderBy('createdAt', 'desc').get();
+                
+                testsList.innerHTML = '';
+                
+                if (tests.empty) {
+                    testsList.innerHTML = '<div class="loading"><p>No tests available. Add your first test!</p></div>';
+                    return;
+                }
+                
+                tests.forEach(doc => {
+                    const data = doc.data();
+                    const testCard = document.createElement('div');
+                    testCard.className = 'student-card';
+                    testCard.innerHTML = `
+                        <div style="flex: 1;">
+                            <h4 style="margin-bottom: 5px;">${data.title || 'Test'}</h4>
+                            <p style="color: #666; font-size: 0.9rem;">
+                                For: ${data.class === 'all' ? 'All Classes' : 'Grade ' + data.class}<br>
+                                Added: ${data.createdAt ? new Date(data.createdAt.toDate()).toLocaleDateString() : 'Recently'}
+                            </p>
+                            <div style="margin-top: 10px;">
+                                <a href="${data.link}" target="_blank" class="btn btn-primary" style="padding: 8px 15px; display: inline-block;">
+                                    <i class="fas fa-external-link-alt"></i> Open PDF
+                                </a>
+                                ${userRole === 'teacher' ? `
+                                <button class="btn btn-danger" style="padding: 8px 15px; margin-left: 10px;" onclick="deleteTest('${doc.id}')">
+                                    <i class="fas fa-trash"></i> Delete
+                                </button>
+                                ` : ''}
+                            </div>
+                        </div>
+                    `;
+                    testsList.appendChild(testCard);
+                });
+            } catch (error) {
+                console.error('Error loading tests:', error);
+                document.getElementById('testsList').innerHTML = '<div class="loading"><p>Error loading tests</p></div>';
+            }
+        }
+
+        // Add test
+        async function addTest() {
+            const title = document.getElementById('testTitle').value;
+            const testClass = document.getElementById('testClass').value;
+            const link = document.getElementById('testLink').value;
+            
+            if (!title || !link) {
+                alert('Please fill all fields');
+                return;
+            }
+            
+            // Validate URL
+            if (!link.startsWith('http')) {
+                alert('Please enter a valid URL starting with http:// or https://');
+                return;
+            }
+            
+            try {
+                await db.collection('tests').add({
+                    title: title,
+                    class: testClass,
+                    link: link,
+                    createdAt: new Date()
+                });
+                
+                closeModal('addTestModal');
+                loadTests();
+                
+                alert('Test added successfully!');
+            } catch (error) {
+                alert('Error adding test: ' + error.message);
+            }
+        }
+
+        // Load teacher profile
+        async function loadTeacherProfile() {
+            try {
+                const teacherDoc = await db.collection('about').doc('teacher').get();
+                
+                if (teacherDoc.exists) {
+                    const data = teacherDoc.data();
+                    document.getElementById('teacherName').textContent = data.name || 'Mr. Mithilesh';
+                    document.getElementById('teacherEmail').textContent = data.email || 'teacher@example.com';
+                    document.getElementById('teacherBio').textContent = data.bio || 'Experienced mathematics teacher.';
+                    
+                    // Set edit form values
+                    document.getElementById('editTeacherName').value = data.name || '';
+                    document.getElementById('editTeacherBio').value = data.bio || '';
+                }
+            } catch (error) {
+                console.error('Error loading teacher profile:', error);
+            }
+        }
+
+        // Update teacher profile
+        async function updateTeacherProfile() {
+            const name = document.getElementById('editTeacherName').value;
+            const bio = document.getElementById('editTeacherBio').value;
+            
+            try {
+                await db.collection('about').doc('teacher').update({
+                    name: name,
+                    bio: bio,
+                    updatedAt: new Date()
+                });
+                
+                toggleEditAbout();
+                loadTeacherProfile();
+                alert('Profile updated successfully!');
+            } catch (error) {
+                alert('Error updating profile: ' + error.message);
+            }
+        }
+
+        // Load activities
+        async function loadActivities() {
+            try {
+                const activitiesList = document.getElementById('activitiesList');
+                const activities = await db.collection('activities')
+                    .orderBy('timestamp', 'desc')
+                    .limit(10)
+                    .get();
+                
+                let html = '';
+                
+                activities.forEach(doc => {
+                    const data = doc.data();
+                    html += `
+                        <tr>
+                            <td>${data.timestamp ? new Date(data.timestamp.toDate()).toLocaleDateString() : 'Today'}</td>
+                            <td>${data.description || 'Activity'}</td>
+                            <td>
+                                <span class="badge badge-success">Completed</span>
+                            </td>
+                        </tr>
+                    `;
+                });
+                
+                activitiesList.innerHTML = html || '<tr><td colspan="3">No recent activities</td></tr>';
+            } catch (error) {
+                console.error('Error loading activities:', error);
+            }
+        }
+
+        // Load student attendance
+        async function loadStudentAttendance(studentId) {
+            // Student-specific attendance view
+            const today = new Date().toISOString().split('T')[0];
+            const attendance = await db.collection('attendance')
+                .where('studentId', '==', studentId)
+                .orderBy('date', 'desc')
+                .limit(30)
+                .get();
+            
+            let presentCount = 0;
+            attendance.forEach(doc => {
+                if (doc.data().status === 'present') {
+                    presentCount++;
+                }
+            });
+            
+            const attendancePercent = attendance.size > 0 ? Math.round((presentCount / attendance.size) * 100) : 0;
+            document.getElementById('attendancePercent').textContent = attendancePercent + '%';
+        }
+
+        // Load student fees
+        async function loadStudentFees(studentId) {
+            const studentDoc = await db.collection('students').doc(studentId).get();
+            if (studentDoc.exists) {
+                const data = studentDoc.data();
+                document.getElementById('feesCollected').textContent = data.feeStatus === 'paid' ? 'Paid ✓' : 'Due ₹' + (data.monthlyFee || 0);
+            }
+        }
+
+        // Load student tests
+        async function loadStudentTests() {
+            // Students can view all tests
+            loadTests();
+        }
+
+        // Modal functions
+        function openModal(modalId) {
+            document.getElementById(modalId).classList.add('active');
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+        }
+
+        function openAddStudentModal() {
+            document.getElementById('studentName').value = '';
+            document.getElementById('fatherName').value = '';
+            document.getElementById('studentClass').value = '9';
+            document.getElementById('studentMobile').value = '';
+            document.getElementById('monthlyFee').value = '3500';
+            openModal('addStudentModal');
+        }
+
+        function openCollectFeesModal() {
+            // Populate student dropdown
+            populateFeesStudents();
+            openModal('collectFeesModal');
+        }
+
+        function openAddTestModal() {
+            document.getElementById('testTitle').value = '';
+            document.getElementById('testClass').value = 'all';
+            document.getElementById('testLink').value = '';
+            openModal('addTestModal');
+        }
+
+        // Populate fees students dropdown
+        async function populateFeesStudents() {
+            try {
+                const select = document.getElementById('feesStudent');
+                select.innerHTML = '<option value="">Select Student</option>';
+                
+                const students = await db.collection('students')
+                    .where('feeStatus', '==', 'unpaid')
+                    .get();
+                
+                students.forEach(doc => {
+                    const data = doc.data();
+                    const option = document.createElement('option');
+                    option.value = doc.id;
+                    option.textContent = `${data.name} (Grade ${data.class}) - ₹${data.monthlyFee || 0}`;
+                    select.appendChild(option);
+                });
+                
+                // Set amount when student is selected
+                select.onchange = function() {
+                    if (this.value) {
+                        const selectedStudent = students.docs.find(d => d.id === this.value);
+                        if (selectedStudent) {
+                            document.getElementById('feesAmount').value = selectedStudent.data().monthlyFee || 0;
+                        }
+                    }
+                };
+                
+                if (students.empty) {
+                    select.innerHTML = '<option value="">No students with unpaid fees</option>';
+                }
+            } catch (error) {
+                console.error('Error populating students:', error);
+            }
+        }
+
+        // Collect fees
+        async function collectFees() {
+            const studentId = document.getElementById('feesStudent').value;
+            const amount = document.getElementById('feesAmount').value;
+            const month = document.getElementById('feesMonth').value;
+            
+            if (!studentId || !amount) {
+                alert('Please select a student and enter amount');
+                return;
+            }
+            
+            try {
+                const studentDoc = await db.collection('students').doc(studentId).get();
+                const studentData = studentDoc.data();
+                
+                // Update student fee status
+                await db.collection('students').doc(studentId).update({
+                    feeStatus: 'paid'
+                });
+                
+                // Record fee payment
+                await db.collection('fees').add({
+                    studentId: studentId,
+                    studentName: studentData.name,
+                    amount: parseFloat(amount),
+                    month: month === 'current' ? new Date().toISOString().slice(0, 7) : 
+                           new Date(new Date().setMonth(new Date().getMonth() - 1)).toISOString().slice(0, 7),
+                    status: 'paid',
+                    paidDate: new Date()
+                });
+                
+                // Add activity
+                await db.collection('activities').add({
+                    type: 'fees_paid',
+                    description: `Collected fees from ${studentData.name}: ₹${amount}`,
+                    timestamp: new Date()
+                });
+                
+                closeModal('collectFeesModal');
+                loadFeesTable();
+                loadTeacherData();
+                
+                alert('Fees collected successfully!');
+            } catch (error) {
+                alert('Error collecting fees: ' + error.message);
+            }
+        }
+
+        // Search students
+        function searchStudents() {
+            const searchTerm = document.getElementById('studentSearch').value.toLowerCase();
+            const studentCards = document.querySelectorAll('.student-card');
+            
+            studentCards.forEach(card => {
+                const text = card.textContent.toLowerCase();
+                card.style.display = text.includes(searchTerm) ? 'flex' : 'none';
+            });
+        }
+
+        // Edit student
+        async function editStudent(studentId) {
+            try {
+                const studentDoc = await db.collection('students').doc(studentId).get();
+                const data = studentDoc.data();
+                
+                // Pre-fill form
+                document.getElementById('studentName').value = data.name;
+                document.getElementById('fatherName').value = data.fatherName;
+                document.getElementById('studentClass').value = data.class;
+                document.getElementById('studentMobile').value = data.mobile;
+                document.getElementById('monthlyFee').value = data.monthlyFee || 3500;
+                
+                // Change button action
+                const modal = document.getElementById('addStudentModal');
+                const header = modal.querySelector('.modal-header h3');
+                const button = modal.querySelector('.btn-primary');
+                
+                header.textContent = 'Edit Student';
+                button.innerHTML = '<i class="fas fa-save"></i> Update Student';
+                button.onclick = function() { updateStudent(studentId); };
+                
+                openModal('addStudentModal');
+            } catch (error) {
+                alert('Error loading student: ' + error.message);
+            }
+        }
+
+        // Update student
+        async function updateStudent(studentId) {
+            const name = document.getElementById('studentName').value;
+            const fatherName = document.getElementById('fatherName').value;
+            const studentClass = document.getElementById('studentClass').value;
+            const mobile = document.getElementById('studentMobile').value;
+            const monthlyFee = parseInt(document.getElementById('monthlyFee').value) || 3500;
+            
+            try {
+                await db.collection('students').doc(studentId).update({
+                    name: name,
+                    fatherName: fatherName,
+                    class: studentClass,
+                    mobile: mobile,
+                    monthlyFee: monthlyFee
+                });
+                
+                closeModal('addStudentModal');
+                loadStudents();
+                alert('Student updated successfully!');
+            } catch (error) {
+                alert('Error updating student: ' + error.message);
+            }
+        }
+
+        // Delete student
+        async function deleteStudent(studentId, studentName) {
+            if (confirm(`Are you sure you want to delete ${studentName}? This cannot be undone.`)) {
+                try {
+                    await db.collection('students').doc(studentId).delete();
+                    
+                    // Delete associated attendance records
+                    const attendance = await db.collection('attendance').where('studentId', '==', studentId).get();
+                    const batch = db.batch();
+                    attendance.forEach(doc => {
+                        batch.delete(doc.ref);
+                    });
+                    await batch.commit();
+                    
+                    loadStudents();
+                    loadTeacherData();
+                    alert('Student deleted successfully!');
+                } catch (error) {
+                    alert('Error deleting student: ' + error.message);
+                }
+            }
+        }
+
+        // Delete test
+        async function deleteTest(testId) {
+            if (confirm('Are you sure you want to delete this test?')) {
+                try {
+                    await db.collection('tests').doc(testId).delete();
+                    loadTests();
+                    alert('Test deleted successfully!');
+                } catch (error) {
+                    alert('Error deleting test: ' + error.message);
+                }
+            }
+        }
+
+        // Toggle edit about section
+        function toggleEditAbout() {
+            const editSection = document.getElementById('editAboutSection');
+            const editBtn = document.getElementById('editAboutBtn');
+            
+            if (editSection.style.display === 'none' || editSection.style.display === '') {
+                editSection.style.display = 'block';
+                editBtn.innerHTML = '<i class="fas fa-times"></i> Cancel';
+                editBtn.onclick = function() { toggleEditAbout(); };
+            } else {
+                editSection.style.display = 'none';
+                editBtn.innerHTML = '<i class="fas fa-edit"></i> Edit Profile';
+                editBtn.onclick = function() { toggleEditAbout(); };
+            }
+        }
+
+        // PWA Install
+        async function installApp() {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                if (outcome === 'accepted') {
+                    document.getElementById('installPrompt').classList.remove('show');
+                }
+                deferredPrompt = null;
+            }
+        }
+
+        // Mark single student attendance
+        async function markSingleAttendance(studentId, studentName) {
+            const today = new Date().toISOString().split('T')[0];
+            
+            // Check current status
+            const existing = await db.collection('attendance')
+                .where('studentId', '==', studentId)
+                .where('date', '==', today)
+                .limit(1)
+                .get();
+            
+            let currentStatus = 'present';
+            if (!existing.empty) {
+                currentStatus = existing.docs[0].data().status === 'present' ? 'absent' : 'present';
+            }
+            
+            if (existing.empty) {
+                await db.collection('attendance').add({
+                    studentId: studentId,
+                    studentName: studentName,
+                    date: today,
+                    status: currentStatus,
+                    timestamp: new Date()
+                });
+            } else {
+                await db.collection('attendance').doc(existing.docs[0].id).update({
+                    status: currentStatus
+                });
+            }
+            
+            loadAttendance();
+            loadTeacherData();
+            
+            alert(`Attendance marked as ${currentStatus} for ${studentName}`);
+        }
+    </script>
+</body>
+</html>
