@@ -1491,7 +1491,7 @@
                     <li>95%+ Board Exam Success Rate</li>
                     <li>500+ JNV Selections</li>
                     <li>Best Teacher Award 2018</li>
-                    <li>Student Satisfaction: 4.7/5</li>
+                    <li>National Science Recognition:Japan Exposure Tour>Na>N
                 </ul>
             </div>
         </div>
@@ -1500,96 +1500,107 @@
     </div>
     <!-- Modals -->
     <div class="modal-overlay" id="addStudentModal">
-        <div class="modal">
-            <div class="modal-header">
-                <h3><i class="fas fa-user-plus"></i> Add New Student</h3>
-                <button onclick="closeModal('addStudentModal')">&times;</button>
+    <div class="modal">
+        <div class="modal-header">
+            <h3><i class="fas fa-user-plus"></i> Add New Student</h3>
+            <button onclick="closeModal('addStudentModal')">&times;</button>
+        </div>
+        <div class="modal-body">
+            <div class="form-group">
+                <label class="form-label required">Student Name</label>
+                <input type="text" id="studentName" class="form-control" placeholder="Enter full name">
             </div>
-            <div class="modal-body">
-                <div class="form-group">
-                    <label class="form-label required">Student Name</label>
-                    <input type="text" id="studentName" class="form-control" placeholder="Enter full name">
-                </div>
-                <div class="form-group">
-                    <label class="form-label required">Father's Name</label>
-                    <input type="text" id="fatherName" class="form-control" placeholder="Enter father's name">
-                </div>
-                <div class="form-group">
-                    <label class="form-label required">Class</label>
-                    <select id="studentClass" class="form-control">
-                        <option value="9">Grade 9</option>
-                        <option value="10">Grade 10</option>
-                        <option value="11">Grade 11</option>
-                        <option value="12">Grade 12</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label class="form-label required">Mobile Number</label>
-                    <input type="tel" id="studentMobile" class="form-control" placeholder="Enter mobile number">
-                </div>
-                <div class="form-group">
-                    <label class="form-label required">Monthly Fee (₹)</label>
-                    <input type="number" id="monthlyFee" class="form-control" placeholder="3500">
-                </div>
-                <button class="btn btn-primary" onclick="addStudent()">
-                    <i class="fas fa-save"></i> Save Student
-                </button>
+            <div class="form-group">
+                <label class="form-label required">Father's Name</label>
+                <input type="text" id="fatherName" class="form-control" placeholder="Enter father's name">
             </div>
+            <div class="form-group">
+                <label class="form-label required">Class</label>
+                <select id="studentClass" class="form-control">
+                    <option value="" disabled selected>Select Grade</option>
+                    <option value="4">Grade 4</option>
+                    <option value="5">Grade 5</option>
+                    <option value="6">Grade 6</option>
+                    <option value="7">Grade 7</option>
+                    <option value="8">Grade 8</option>
+                    <option value="9">Grade 9</option>
+                    <option value="10">Grade 10</option>
+                    <option value="11">Grade 11</option>
+                    <option value="12">Grade 12</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-label required">Mobile Number</label>
+                <input type="tel" id="studentMobile" class="form-control" placeholder="Enter mobile number">
+            </div>
+            <div class="form-group">
+                <label class="form-label required">Monthly Fee (₹)</label>
+                <input type="number" id="monthlyFee" class="form-control" placeholder="3500">
+            </div>
+            <button class="btn btn-primary" onclick="addStudent()">
+                <i class="fas fa-save"></i> Save Student
+            </button>
         </div>
     </div>
+</div>
 
-    <div class="modal-overlay" id="addTestModal">
-        <div class="modal">
-            <div class="modal-header">
-                <h3><i class="fas fa-file-upload"></i> Add Test Material</h3>
-                <button onclick="closeModal('addTestModal')">&times;</button>
+<div class="modal-overlay" id="addTestModal">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><i class="fas fa-file-upload"></i> Add Test Material</h3>
+            <button onclick="closeModal('addTestModal')">&times;</button>
+        </div>
+        <div class="modal-body">
+            <div class="form-group">
+                <label class="form-label required">Test Title</label>
+                <input type="text" id="testTitle" class="form-control" placeholder="Enter test title">
             </div>
-            <div class="modal-body">
-                <div class="form-group">
-                    <label class="form-label required">Test Title</label>
-                    <input type="text" id="testTitle" class="form-control" placeholder="Enter test title">
-                </div>
-                <div class="form-group">
-                    <label class="form-label required">For Class</label>
-                    <select id="testClass" class="form-control">
-                        <option value="all">All Classes</option>
-                        <option value="9">Grade 9</option>
-                        <option value="10">Grade 10</option>
-                        <option value="11">Grade 11</option>
-                        <option value="12">Grade 12</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label class="form-label required">Test Date</label>
-                    <input type="date" id="testDate" class="form-control">
-                </div>
-                <div class="form-group">
-                    <label class="form-label required">PDF Link</label>
-                    <input type="url" id="testLink" class="form-control" placeholder="https://drive.google.com/...">
-                </div>
-                <button class="btn btn-primary" onclick="addTest()">
-                    <i class="fas fa-save"></i> Save Test
-                </button>
+            <div class="form-group">
+                <label class="form-label required">For Class</label>
+                <select id="testClass" class="form-control">
+                    <option value="all">All Classes</option>
+                    <option value="4">Grade 4</option>
+                    <option value="5">Grade 5</option>
+                    <option value="6">Grade 6</option>
+                    <option value="7">Grade 7</option>
+                    <option value="8">Grade 8</option>
+                    <option value="9">Grade 9</option>
+                    <option value="10">Grade 10</option>
+                    <option value="11">Grade 11</option>
+                    <option value="12">Grade 12</option>
+                </select>
             </div>
+            <div class="form-group">
+                <label class="form-label required">Test Date</label>
+                <input type="date" id="testDate" class="form-control">
+            </div>
+            <div class="form-group">
+                <label class="form-label required">PDF Link</label>
+                <input type="url" id="testLink" class="form-control" placeholder="https://drive.google.com/...">
+            </div>
+            <button class="btn btn-primary" onclick="addTest()">
+                <i class="fas fa-save"></i> Save Test
+            </button>
         </div>
     </div>
+</div>
 
-    <div class="modal-overlay" id="attendanceModal">
-        <div class="modal">
-            <div class="modal-header">
-                <h3><i class="fas fa-calendar-check"></i> Mark Attendance</h3>
-                <button onclick="closeModal('attendanceModal')">&times;</button>
-            </div>
-            <div class="modal-body">
-                <div id="attendanceList">
-                    <!-- Attendance list will be populated here -->
+<div class="modal-overlay" id="attendanceModal">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><i class="fas fa-calendar-check"></i> Mark Attendance</h3>
+            <button onclick="closeModal('attendanceModal')">&times;</button>
+        </div>
+        <div class="modal-body">
+            <div id="attendanceList">
                 </div>
-                <button class="btn btn-success mt-3" onclick="saveAttendance()">
-                    <i class="fas fa-save"></i> Save Attendance
-                </button>
-            </div>
+            <button class="btn btn-success mt-3" onclick="saveAttendance()">
+                <i class="fas fa-save"></i> Save Attendance
+            </button>
         </div>
     </div>
+</div>
+
 
     <!-- Toast Notification -->
     <div class="toast" id="toast">
