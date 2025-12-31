@@ -8,12 +8,12 @@
   "scope": "/Mithilesh-/",
   "icons": [
     {
-      "src": "icon-192x192.png",
+      "src": "https://via.placeholder.com/192/4f46e5/ffffff?text=M",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "icon-512x512.png",
+      "src": "https://via.placeholder.com/512/4f46e5/ffffff?text=Math",
       "sizes": "512x512",
       "type": "image/png"
     }
